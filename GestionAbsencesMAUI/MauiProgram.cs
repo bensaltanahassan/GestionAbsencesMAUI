@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GestionAbsencesMAUI.ViewModels;
+using GestionAbsencesMAUI.Views;
+using Microsoft.Extensions.Logging;
 
 namespace GestionAbsencesMAUI
 {
@@ -18,6 +20,12 @@ namespace GestionAbsencesMAUI
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<LoginPage>();
+            builder.Services.AddSingleton<LoginPageViewModel>();
+
+            builder.Services.AddSingleton<AbsencesPage>();
+            builder.Services.AddSingleton<AbsencesPageViewModel>();
+
 
             return builder.Build();
         }

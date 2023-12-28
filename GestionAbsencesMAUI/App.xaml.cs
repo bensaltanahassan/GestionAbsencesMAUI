@@ -1,5 +1,6 @@
 ﻿using GestionAbsencesMAUI.Models;
 using GestionAbsencesMAUI.Services;
+using GestionAbsencesMAUI.Views;
 
 namespace GestionAbsencesMAUI
 {
@@ -108,21 +109,10 @@ namespace GestionAbsencesMAUI
             }
         }
 
-
-
-
-
-
-
-
-
         public App()
         {
             InitializeComponent();
-
-
-
-            MainPage = new AppShell();
+            MainPage = new AbsencesPage();
         }
     }
 }
