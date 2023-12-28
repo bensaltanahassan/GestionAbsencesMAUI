@@ -9,7 +9,7 @@ namespace GestionAbsencesMAUI.Models
 {
     public class FiliereModule
     {
-        [PrimaryKey]
+        [PrimaryKey,AutoIncrement]
         public int Id { get; set; }
 
         public int FiliereId { get; set; }

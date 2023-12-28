@@ -79,7 +79,6 @@ namespace GestionAbsencesMAUI
             }
         }
 
-
         public static SessionServices _sessionServices;
         public static SessionServices sessionServices
         {
@@ -92,9 +91,6 @@ namespace GestionAbsencesMAUI
                 return _sessionServices;
             }
         }
-
-
-
 
         public static AbsenceServices _absenceServices;
         public static AbsenceServices absenceServices
@@ -113,6 +109,13 @@ namespace GestionAbsencesMAUI
         {
             InitializeComponent();
             MainPage = new AbsencesPage();
+        }
+
+        protected override async void OnStart()
+        {
+            //run this only once and then comment it
+            TestDbService testDbService = new TestDbService();
+            await testDbService.insertInitialData();
         }
     }
 }

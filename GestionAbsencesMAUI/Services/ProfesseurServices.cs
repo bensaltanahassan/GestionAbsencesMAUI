@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using GestionAbsencesMAUI.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,68 @@ namespace GestionAbsencesMAUI.Services
             }
         }
 
+
+
+        public async Task<bool> ajouterProfesseur(Professeur professeur)
+        {
+            try
+            {
+                int res = await _db.InsertAsync(professeur);
+                return res == 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding student: {ex.Message}");
+                return false;
+            }
+        }
+
+
+        public async Task<List<Professeur>> getAllProfesseurs()
+        {
+            try
+            {
+                return await _db.Table<Professeur>().ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting all Professeurs: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<Professeur> getProfesseurById(int id)
+        {
+            try
+            {
+                return await _db.Table<Professeur>().Where(p => p.Id == id).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting Professeur: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<Professeur> getProfesseurByUsername(string username)
+        {
+            try
+            {
+                return await _db.Table<Professeur>().Where(p => p.Username == username).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting Professeur: {ex.Message}");
+                return null;
+            }
+        }
+
+
+
+
+
     }
+
+
+
 }

@@ -9,7 +9,7 @@ namespace GestionAbsencesMAUI.Models
 {
     public class Absence
     {
-        [PrimaryKey]
+        [PrimaryKey,AutoIncrement]
         public int Id { get; set; }
 
         public int SessionId { get; set; }

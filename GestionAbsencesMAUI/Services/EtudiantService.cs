@@ -15,14 +15,18 @@ namespace GestionAbsencesMAUI.Services
         public SQLiteAsyncConnection _db;
         public EtudiantService(string dbPath)
         {
+
+            Console.WriteLine($"Database path: {dbPath}");
             try
             {
                 _db = new SQLiteAsyncConnection(dbPath);
                 _db.CreateTableAsync<Models.Etudiant>().Wait();
+                Console.WriteLine("Database created successfully");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error initializing database: {ex.Message}");
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -37,6 +41,34 @@ namespace GestionAbsencesMAUI.Services
             {
                 Console.WriteLine($"Error adding student: {ex.Message}");
                 return false;
+            }
+        }
+
+
+        public async Task<List<Etudiant>> getAllEtudiants()
+        {
+            try
+            {
+                return await _db.Table<Etudiant>().ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting all students: {ex.Message}");
+                return null;
+            }
+        }
+
+
+        public async Task<Etudiant> getEtudiantById(int id)
+        {
+            try
+            {
+                return await _db.Table<Etudiant>().Where(etudiant => etudiant.Id == id).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting student by id: {ex.Message}");
+                return null;
             }
         }
 
