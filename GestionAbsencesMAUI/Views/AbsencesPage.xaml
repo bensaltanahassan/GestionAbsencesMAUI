@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionAbsencesMAUI.Views.AbsencesPage"
+             Title="AbsencesPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <x:Array x:Key="ModuleArray"
+                     Type="{x:Type x:String}">
+                <x:String>Module 1</x:String>
+                <x:String>Module 2</x:String>
+                <x:String>Module 3</x:String>
+                <x:String>Module 4</x:String>
+                <x:String>Module 5</x:String>
+            </x:Array>
+            <x:Array x:Key="FiliereArray"
+                     Type="{x:Type x:String}">
+                <x:String>Filiere 1</x:String>
+                <x:String>Filiere 2</x:String>
+                <x:String>Filiere 3</x:String>
+                <x:String>Filiere 4</x:String>
+                <x:String>Filiere 5</x:String>
+            </x:Array>
+            <x:Array x:Key="StudentsArray"
+                     Type="{x:Type x:String}">
+                <x:String>Student 1</x:String>
+                <x:String>Student 2</x:String>
+                <x:String>Student 3</x:String>
+                <x:String>Student 4</x:String>
+                <x:String>Student 5</x:String>
+                <x:String>Student 6</x:String>
+                <x:String>Student 7</x:String>
+                <x:String>Student 8</x:String>
+                <x:String>Student 9</x:String>
+                <x:String>Student 10</x:String>
+                <x:String>Student 11</x:String>
+                <x:String>Student 12</x:String>
+            </x:Array>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout>
+        <HorizontalStackLayout Padding="20,0,20,0"
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="Center"
+                               HeightRequest="60"
+                               BackgroundColor="Aqua">
+            <Label Text="Gestion des absences"
+                   VerticalOptions="CenterAndExpand"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   TextColor="Black" />
+        </HorizontalStackLayout>
+        <ScrollView VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Vertical"
+                    Padding="20,0,20,0">
+            <StackLayout Orientation="Vertical"
+                         Padding="0,0,0,0"
+                         Spacing="0"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="FillAndExpand"
+                         Margin="0">
+                <Frame Margin="0,10,0,0">
+                    <Grid HorizontalOptions="FillAndExpand"
+                          RowDefinitions="*,*"
+                          ColumnDefinitions="*, *"
+                          RowSpacing="5"
+                          ColumnSpacing="20">
+                        <Label Text="Module:"
+                               VerticalOptions="Center"
+                               FontSize="Large"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               Grid.Row="0"
+                               Grid.Column="0" />
+                        <Frame HorizontalOptions="FillAndExpand"
+                               VerticalOptions="Center"
+                               Padding="5"
+                               CornerRadius="8"
+                               BackgroundColor="#ECECEC"
+                               Grid.Row="1"
+                               Grid.Column="0">
+                            <Picker x:Name="ModulePicker"
+                                    Title="Select a Module"
+                                    ItemsSource="{StaticResource ModuleArray}" />
+                        </Frame>
+                        <Label Text="Filiere:"
+                               VerticalOptions="Center"
+                               FontSize="Large"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               Grid.Row="0"
+                               Grid.Column="1" />
+                        <Frame HorizontalOptions="FillAndExpand"
+                               VerticalOptions="Center"
+                               Padding="5"
+                               CornerRadius="8"
+                               BackgroundColor="#ECECEC"
+                               Grid.Row="1"
+                               Grid.Column="1">
+                            <Picker Title="Select a Filiere"
+                                    x:Name="FilierePicker"
+                                    ItemsSource="{StaticResource FiliereArray}" />
+                        </Frame>
+                    </Grid>
+                </Frame>
+                <Label Text="Liste des etudiants:"
+                       VerticalOptions="Center"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       Margin="20,20,20,15" />
+                <CollectionView x:Name="StudentsCollectionView"
+                                ItemsSource="{StaticResource StudentsArray}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="0,5"
+                                   Padding="10">
+                                <Grid HorizontalOptions="FillAndExpand"
+                                      ColumnDefinitions="*,Auto">
+                                    <Label Text="{Binding .}"
+                                           VerticalOptions="Center"
+                                           FontSize="Large"
+                                           FontAttributes="Bold"
+                                           TextColor="Black"
+                                           Grid.Row="0"
+                                           Grid.Column="0" />
+                                    <CheckBox Grid.Row="0"
+                                              Grid.Column="1"
+                                              HorizontalOptions="End"
+                                              VerticalOptions="Center"
+                                              IsChecked="True" />
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+        <StackLayout Orientation="Horizontal"
+                     BackgroundColor="#EEEEEE"
+                     Padding="20,10,20,10"
+                     Spacing="10"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="End">
+            <Button x:Name="SaveButton"
+                    Text="Enregistrer"
+                    HorizontalOptions="FillAndExpand"
+                    TextColor="White"
+                    Background="Green"
+                    FontSize="18"
+                    FontAttributes="Bold" />
+            <Button x:Name="CancelButton"
+                    Text="Annuler"
+                    HorizontalOptions="FillAndExpand"
+                    TextColor="White"
+                    Background="Red"
+                    FontSize="18"
+                    FontAttributes="Bold" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
