@@ -108,14 +108,14 @@ namespace GestionAbsencesMAUI
         public App()
         {
             InitializeComponent();
-            MainPage = new AbsencesPage();
+            MainPage = new StudentPage();
         }
 
-        protected override async void OnStart()
+        /*protected override async void OnStart()
         {
             //run this only once and then comment it
             TestDbService testDbService = new TestDbService();
             await testDbService.insertInitialData();
-        }
+        }*/
     }
 }
