@@ -8,12 +8,15 @@ namespace GestionAbsencesMAUI.Views;
 public partial class AbsencesPage : ContentPage
 {
     private AbsencesPageViewModel viewModel;
+    public List<EtudiantAbsentModel> etudiantAbsentModels { get; set; }
 
     public AbsencesPage()
 	{
+
         // Add available dates
         InitializeComponent();
         InitializePage();
+
 
     }
 
@@ -82,37 +85,38 @@ public partial class AbsencesPage : ContentPage
     private void OnCheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         var checkbox = (sender as CheckBox);
+        etudiantAbsentModels = new List<EtudiantAbsentModel>();
         foreach (var etudiant in viewModel.etudiantsStatus)
         {
-            Console.WriteLine($"Etudiant: {etudiant.etudiant.Nom} {etudiant.etudiant.Prenom}");
-            Console.WriteLine($"Checkbox: {etudiant.isPresent}");
+            etudiantAbsentModels.Add(etudiant);
         }
+       
     }
 
-
-
-    private async Task IncrementProgressBar()
+    private async Task IncrementProgressBarAndSaveData()
     {
         double progress = 0;
-        double targetProgress = 1.0;
+        double targetProgress = 0.5;
         const int animationDurationSeconds = 1;
         double increment = 0.01;
         double animationStep = targetProgress / (animationDurationSeconds * (1.0 / increment));
+        viewModel.isLoading = true;
 
-        while (progress < targetProgress)
+        while (progress < targetProgress || viewModel.isLoading )
         {
             progress += animationStep;
             if (progress > targetProgress)
             {
                 progress = targetProgress;
             }
+           
             this.progressBar.IsVisible = true;
             this.SaveButton.IsVisible = false;
             this.progressBar.Progress = progress;
 
             await Task.Delay(TimeSpan.FromSeconds(increment));
 
-            //await viewModel.saveInfoToDb();
+            await viewModel.saveInfoToDb();
         }
 
         this.progressBar.IsVisible = false;
@@ -124,11 +128,23 @@ public partial class AbsencesPage : ContentPage
 
     private void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+        if (viewModel.CurrentModule==null
+            || viewModel.CurrentFiliere==null
+            ||( viewModel.selectedDate=="Add new session" && viewModel.formattedDate==null)
+            || (viewModel.selectedDate!=null && viewModel.selectedDate!="Add new session" && viewModel.CurrentSession==null)
+            )
         {
-            IncrementProgressBar();
-            return false; 
-        });
+            DisplayAlert("Error", "Please select all the required fields", "OK");
+        }
+        else
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            {
+                IncrementProgressBarAndSaveData();
+                return false;
+            });
+        }
+        
     }
 
 
