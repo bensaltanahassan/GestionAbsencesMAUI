@@ -49,11 +49,13 @@ public partial class SearchPage : ContentPage
                 await viewModel.OnSelectedSessionChanged(this.CneEditor.Text);
             if (viewModel.etudiant != null)
             {
+                this.studentFrame.IsVisible = true;
                 this.StudentName.Text = viewModel.etudiant.Nom;
                 this.StudentCheckBox.BindingContext = viewModel.etudiantStatus;
             }
             else
             {
+                this.studentFrame.IsVisible = false;
                 DisplayAlert("Error", "No student found", "OK");
             }
         }
