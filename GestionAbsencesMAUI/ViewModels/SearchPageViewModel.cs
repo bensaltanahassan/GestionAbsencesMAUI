@@ -10,6 +10,7 @@ namespace GestionAbsencesMAUI.ViewModels
 {
     public class SearchPageViewModel
     {
+        
         public string? selectedDate;
         public string? formattedDate;
 
@@ -99,5 +100,7 @@ namespace GestionAbsencesMAUI.ViewModels
                 etudiant = data;
             }
         }
+        
     }
+        
 }
