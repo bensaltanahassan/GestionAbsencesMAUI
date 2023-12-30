@@ -10,8 +10,6 @@ namespace GestionAbsencesMAUI.Services
 {
     public class EtudiantService
     {
-       
-
         public SQLiteAsyncConnection _db;
         public EtudiantService(string dbPath)
         {
@@ -29,8 +27,6 @@ namespace GestionAbsencesMAUI.Services
                 Console.WriteLine(ex.Message);
             }
         }
-
-
 
         public async Task<bool> ajouterEtudiant(Etudiant etudiant)
         {
