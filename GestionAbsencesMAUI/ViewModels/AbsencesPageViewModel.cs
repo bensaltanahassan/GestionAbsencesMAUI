@@ -11,14 +11,14 @@ namespace GestionAbsencesMAUI.ViewModels
     
     public class AbsencesPageViewModel
     {
-
+        public bool isLoading = false;
         public string? selectedDate;
         public string? formattedDate;
 
-        Module? CurrentModule { get; set; }
-        Filiere? CurrentFiliere { get; set; }
+        public Module? CurrentModule { get; set; }
+        public Filiere? CurrentFiliere { get; set; }
         FiliereModule? CurrentFiliereModule { get; set; }
-        Session? CurrentSession { get; set; }
+        public Session? CurrentSession { get; set; }
 
         public List<Module> Modules { get; set; }
         public List<String> ModulesNames { get; set; }
@@ -74,6 +74,7 @@ namespace GestionAbsencesMAUI.ViewModels
             {
                 filieresNames.Add(filiere.Nom);
             }
+            CurrentFiliere = null;
 
         }
 
@@ -95,8 +96,20 @@ namespace GestionAbsencesMAUI.ViewModels
             }
             sessionsDates.Add("Add new session");
 
+
+            foreach (var session in sessions)
+            {
+                Console.WriteLine("Session: ==============================");
+                Console.WriteLine("Session: " + session.Id);
+                Console.WriteLine("Session: " + session.Date);
+            }
+
             //get the etudiants in the filiere
             await getEtudiantsInFiliere();
+
+            //reset the CurrentSession
+            CurrentSession = null;
+
         }
 
         public async Task OnSelectedSessionChanged()
@@ -104,7 +117,6 @@ namespace GestionAbsencesMAUI.ViewModels
             if (selectedDate == "Add new session")
             {
                 absences = new List<Absence>();
-                getEtudiantsStatus();
             }
             else
             {
@@ -112,8 +124,9 @@ namespace GestionAbsencesMAUI.ViewModels
                 CurrentSession = session;
                 var data = await App.absenceServices.GetAbsencesInSession(session.Id);
                 absences = data.ToList();
-                getEtudiantsStatus();
+                
             }
+            getEtudiantsStatus();
         }
         public void getEtudiantsStatus() {
             etudiantsStatus = new List<EtudiantAbsentModel>();
@@ -138,14 +151,16 @@ namespace GestionAbsencesMAUI.ViewModels
                 }
                 etudiantsStatus.Add(etudiantAbsent);
             }
+         
         }
       
-        public async Task addAbsenceToDb(int etudiantId)
+        public async Task addAbsenceToDb(EtudiantAbsentModel etudiant)
         {
             Absence absence = new Absence
             {
-                EtudiantId = etudiantId,
+                EtudiantId = etudiant.etudiant.Id,
                 SessionId = CurrentSession!.Id,
+                IsPresent = etudiant.isPresent ? 1 : 0
             };
             await App.absenceServices.addAbsence(absence);
         }
@@ -164,6 +179,9 @@ namespace GestionAbsencesMAUI.ViewModels
         }
 
         public async Task saveInfoToDb() {
+            isLoading = true;
+
+
             if (selectedDate == "Add new session" && formattedDate!=null )
             {
                 if (CurrentSession!=null
@@ -172,33 +190,37 @@ namespace GestionAbsencesMAUI.ViewModels
                 {
                     foreach (var etudiant in etudiantsStatus)
                     {
-                        await addAbsenceToDb(etudiant.etudiant.Id);
+                        await addAbsenceToDb(etudiant);
                     }
-                    return;
                 }
-                //add new session
-                var newSession = new Session
+                else
                 {
-                    Date = formattedDate!,
-                    FiliereModuleId = CurrentFiliereModule!.Id,
-                };
-                var respAddSession = await App.sessionServices.addSession(newSession);
-                //add absences
-                if (respAddSession.Id != 0)
-                {
-                    CurrentSession = respAddSession;
-                    foreach (var etudiant in etudiantsStatus)
+                    //add new session
+                    var newSession = new Session
                     {
-                        await addAbsenceToDb(etudiant.etudiant.Id);
+                        Date = formattedDate!,
+                        FiliereModuleId = CurrentFiliereModule!.Id,
+                    };
+                    var respAddSession = await App.sessionServices.addSession(newSession);
+                    //add absences
+                    if (respAddSession.Id != 0)
+                    {
+                        CurrentSession = respAddSession;
+                        foreach (var etudiant in etudiantsStatus)
+                        {
+                            await addAbsenceToDb(etudiant);
+                        }
                     }
                 }
+                
             }
             else {
                 foreach (var etudiant in etudiantsStatus)
                 {
-                    await addAbsenceToDb(etudiant.etudiant.Id);
+                    await addAbsenceToDb(etudiant);
                 }
             }
+            isLoading = false;
         }
 
     }

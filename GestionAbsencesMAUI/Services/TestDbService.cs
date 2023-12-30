@@ -178,73 +178,16 @@ namespace GestionAbsencesMAUI.Services
                 await App.filiereModuleServices.addFiliereModule(filiereModule);
             }
         }
-
-        public async Task insertInitialSessions()
-        {
-            List<Session> sessions = new List<Session>();
-
-            sessions.Add(new Session
-            {
-                Date = DateTime.Now.ToString(),
-                FiliereModuleId = 1
-            });
-
-            sessions.Add(new Session
-            {
-                Date = DateTime.Now.ToString(),
-                FiliereModuleId = 1
-            });
-
-            sessions.Add(new Session
-            {
-                Date = DateTime.Now.ToString(),
-                FiliereModuleId = 1
-            });
-
-            sessions.Add(new Session
-            {
-                Date = DateTime.Now.ToString(),
-                FiliereModuleId = 2
-            });
-            sessions.Add(new Session
-            {
-                Date = DateTime.Now.ToString(),
-                FiliereModuleId = 3
-            });
-            sessions.Add(new Session
-            {
-                Date = DateTime.Now.ToString(),
-                FiliereModuleId = 4
-            });
-            sessions.Add(new Session
-            {
-                Date = DateTime.Now.ToString(),
-                FiliereModuleId = 5
-            });
-
-
-
-
-            foreach (var session in sessions)
-            {
-                await App.sessionServices.addSession(session);
-            }
-        }
-
+       
         public async Task insertInitialData()
         {
             await insertInitialFilieres();
             await insertInitialProfs();
             await insertInitialModules();
             await inserInitialFiliereModule();
-            await insertInitialSessions();
             await insertInitialStudents();
             Console.WriteLine("Initial data inserted");
         }
-
-
-
-
 
     }
 }
