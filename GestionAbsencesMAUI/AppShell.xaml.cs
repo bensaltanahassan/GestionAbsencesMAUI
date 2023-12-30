@@ -1,10 +1,15 @@
-﻿namespace GestionAbsencesMAUI
+﻿using GestionAbsencesMAUI.Views;
+
+namespace GestionAbsencesMAUI
 {
     public partial class AppShell : Shell
     {
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            Routing.RegisterRoute(nameof(MainPageChoices), typeof(MainPageChoices));
         }
     }
 }

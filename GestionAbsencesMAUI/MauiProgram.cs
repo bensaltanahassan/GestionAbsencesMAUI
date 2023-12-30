@@ -20,11 +20,17 @@ namespace GestionAbsencesMAUI
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-            builder.Services.AddSingleton<LoginPage>();
-            builder.Services.AddSingleton<LoginPageViewModel>();
+            builder.Services.AddTransient<LoginPage>();
+            builder.Services.AddTransient<LoginPageViewModel>();
 
             builder.Services.AddSingleton<AbsencesPage>();
             builder.Services.AddSingleton<AbsencesPageViewModel>();
+
+            builder.Services.AddTransient<RegisterPage>();
+            builder.Services.AddTransient<RegisterPageViewModel>();
+
+            builder.Services.AddTransient<MainPageChoices>();
+           
 
 
             return builder.Build();
