@@ -1,33 +1,24 @@
-using GestionAbsencesMAUI.Models;
 using GestionAbsencesMAUI.Utils;
 using GestionAbsencesMAUI.ViewModels;
-using System.Collections.ObjectModel;
 
 namespace GestionAbsencesMAUI.Views;
 
-public partial class AbsencesPage : ContentPage
+public partial class SearchPage : ContentPage
 {
-    private AbsencesPageViewModel viewModel;
+	private SearchPageViewModel viewModel;
     public List<EtudiantAbsentModel> etudiantAbsentModels { get; set; }
 
-    public AbsencesPage()
+    public SearchPage()
 	{
-
-        // Add available dates
         InitializeComponent();
         InitializePage();
-
-
-    }
-
+	}
     public async Task InitializePage()
     {
-        viewModel = new AbsencesPageViewModel();
+        viewModel = new SearchPageViewModel();
         await viewModel.InitializeViewModel();
         this.BindingContext = viewModel;
     }
- 
-
     private async void OnModuleSelectedIndexChanged(object sender, EventArgs e)
     {
         var selectedModule = (sender as Picker)?.SelectedItem as string;
@@ -54,31 +45,20 @@ public partial class AbsencesPage : ContentPage
         var selectedDate = (sender as Picker)?.SelectedItem as string;
         if (selectedDate != null)
         {
-            
-            if (selectedDate=="Add new session")
+                viewModel.selectedDate = selectedDate;
+                await viewModel.OnSelectedSessionChanged(this.CneEditor.Text);
+            if (viewModel.etudiant != null)
             {
-                this.DatePicker.IsVisible = true;
+                this.studentFrame.IsVisible = true;
+                this.StudentName.Text = viewModel.etudiant.Nom;
+                this.StudentCheckBox.BindingContext = viewModel.etudiantStatus;
             }
             else
             {
-                this.DatePicker.IsVisible = false;
-                viewModel.selectedDate = selectedDate;
-                await viewModel.OnSelectedSessionChanged();
-                this.StudentsCollectionView.ItemsSource = viewModel.etudiantsStatus;
+                this.studentFrame.IsVisible = false;
+                DisplayAlert("Error", "No student found", "OK");
             }
-
         }
-    }
-
-    private async void OnDateSelected(object sender, DateChangedEventArgs e)
-    {
-        var formattedDate = e.NewDate.ToString("dd/MM/yyyy"); 
-        viewModel.formattedDate = formattedDate;
-        var selectedDate = "Add new session";
-        viewModel.selectedDate = selectedDate;
-        await viewModel.OnSelectedSessionChanged();
-        this.StudentsCollectionView.ItemsSource = viewModel.etudiantsStatus;
-
     }
 
 
@@ -86,11 +66,8 @@ public partial class AbsencesPage : ContentPage
     {
         var checkbox = (sender as CheckBox);
         etudiantAbsentModels = new List<EtudiantAbsentModel>();
-        foreach (var etudiant in viewModel.etudiantsStatus)
-        {
-            etudiantAbsentModels.Add(etudiant);
-        }
-       
+        Console.WriteLine("Checkbox: " + viewModel.etudiantStatus.isPresent);
+
     }
 
     private async Task IncrementProgressBarAndSaveData()
@@ -102,14 +79,14 @@ public partial class AbsencesPage : ContentPage
         double animationStep = targetProgress / (animationDurationSeconds * (1.0 / increment));
         viewModel.isLoading = true;
 
-        while (progress < targetProgress || viewModel.isLoading )
+        while (progress < targetProgress || viewModel.isLoading)
         {
             progress += animationStep;
             if (progress > targetProgress)
             {
                 progress = targetProgress;
             }
-           
+
             this.progressBar.IsVisible = true;
             this.SaveButton.IsVisible = false;
             this.progressBar.Progress = progress;
@@ -128,24 +105,13 @@ public partial class AbsencesPage : ContentPage
 
     private void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        if (viewModel.CurrentModule==null
-            || viewModel.CurrentFiliere==null
-            ||( viewModel.selectedDate=="Add new session" && viewModel.formattedDate==null)
-            || (viewModel.selectedDate!=null && viewModel.selectedDate!="Add new session" && viewModel.CurrentSession==null)
-            )
+        
+        Device.StartTimer(TimeSpan.FromSeconds(1), () =>
         {
-            DisplayAlert("Error", "Please select all the required fields", "OK");
-        }
-        else
-        {
-            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
-            {
                 IncrementProgressBarAndSaveData();
                 return false;
-            });
-        }
+        });
         
+
     }
-
-
 }

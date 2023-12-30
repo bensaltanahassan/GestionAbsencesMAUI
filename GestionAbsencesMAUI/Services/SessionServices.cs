@@ -53,18 +53,23 @@ namespace GestionAbsencesMAUI.Services
             return new List<Models.Session>();
         }
 
-        public async Task<int> addSession(Models.Session session)
+        public async Task<Models.Session> addSession(Models.Session session)
         {
             try
             {
-                return await _db.InsertAsync(session);
+                int res = await _db.InsertAsync(session);
+                if (res == 1)
+                {
+                    return session;
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
-            return 0;
+            return new Models.Session();
         }
+
 
         public async Task<int> deleteSession(Models.Session session)
         {

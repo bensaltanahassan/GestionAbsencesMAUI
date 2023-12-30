@@ -8,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace GestionAbsencesMAUI.ViewModels
 {
-    
-    public class AbsencesPageViewModel
+    public class SearchPageViewModel
     {
-        public bool isLoading = false;
+        
         public string? selectedDate;
         public string? formattedDate;
 
-        public Module? CurrentModule { get; set; }
-        public Filiere? CurrentFiliere { get; set; }
+        Module? CurrentModule { get; set; }
+        Filiere? CurrentFiliere { get; set; }
         FiliereModule? CurrentFiliereModule { get; set; }
-        public Session? CurrentSession { get; set; }
+        Session? CurrentSession { get; set; }
 
         public List<Module> Modules { get; set; }
         public List<String> ModulesNames { get; set; }
@@ -31,26 +30,27 @@ namespace GestionAbsencesMAUI.ViewModels
 
         public List<Absence> absences { get; set; }
 
+        public Etudiant etudiant { get; set; }
+        public EtudiantAbsentModel etudiantStatus { get; set; }
 
         public List<Etudiant> etudiants { get; set; }
-
         public List<EtudiantAbsentModel> etudiantsStatus { get; set; }
-
+        
 
         public int profId { get; set; }
 
-        public AbsencesPageViewModel()
+        public Boolean isLoading { get; set; }
+
+        public SearchPageViewModel()
         {
             InitializeViewModel();
-            
         }
-
         public async Task InitializeViewModel()
         {
             await getModules();
         }
-
-        public async Task getModules() {
+        public async Task getModules()
+        {
             profId = 1; // test
             var data = await App.moduleServices.GetModulesInProf(profId);
             Modules = data.ToList();
@@ -58,11 +58,8 @@ namespace GestionAbsencesMAUI.ViewModels
             foreach (var module in Modules)
             {
                 ModulesNames.Add(module.Nom);
-                Console.WriteLine("Module: " + module.Nom);
             }
-
         }
-
         public async Task OnSelectedModuleChanged(string selectedModule)
         {
             Module module = Modules.FirstOrDefault(m => m.Nom == selectedModule)!;
@@ -74,11 +71,8 @@ namespace GestionAbsencesMAUI.ViewModels
             {
                 filieresNames.Add(filiere.Nom);
             }
-            CurrentFiliere = null;
 
         }
-
-
         public async Task OnSelectedFiliereChanged(string selectedModule)
         {
             Filiere filiere = filieres.FirstOrDefault(m => m.Nom == selectedModule)!;
@@ -94,41 +88,44 @@ namespace GestionAbsencesMAUI.ViewModels
             {
                 sessionsDates.Add(session.Date.ToString());
             }
-            sessionsDates.Add("Add new session");
-
-
-            foreach (var session in sessions)
-            {
-                Console.WriteLine("Session: ==============================");
-                Console.WriteLine("Session: " + session.Id);
-                Console.WriteLine("Session: " + session.Date);
-            }
 
             //get the etudiants in the filiere
             await getEtudiantsInFiliere();
-
-            //reset the CurrentSession
-            CurrentSession = null;
-
         }
-
-        public async Task OnSelectedSessionChanged()
+        public async Task getEtudiantsInFiliere()
         {
-            if (selectedDate == "Add new session")
+            var data = await App.etudiantService.getEtudiantsInFiliere(CurrentFiliere!.Id);
+            if (data == null)
             {
-                absences = new List<Absence>();
+                etudiants = new List<Etudiant>();
             }
             else
             {
-                Session session = sessions.FirstOrDefault(m => m.Date.ToString() == selectedDate)!;
-                CurrentSession = session;
-                var data = await App.absenceServices.GetAbsencesInSession(session.Id);
-                absences = data.ToList();
-                
+                etudiants = data.ToList();
             }
-            getEtudiantsStatus();
         }
-        public void getEtudiantsStatus() {
+        public async Task OnSelectedSessionChanged(string cne)
+        {
+            
+            Session session = sessions.FirstOrDefault(m => m.Date.ToString() == selectedDate)!;
+            CurrentSession = session;
+            var data = await App.absenceServices.GetAbsencesInSession(session.Id);
+            absences = data.ToList();
+
+            
+            getEtudiantsStatus();
+            etudiantStatus = etudiantsStatus.FirstOrDefault(m => m.etudiant.Cne == cne);
+            if (etudiantStatus == null)
+            {
+                etudiant = null;
+            }
+            else
+            {
+                etudiant = etudiantStatus.etudiant;
+            }
+        }
+        public void getEtudiantsStatus()
+        {
             etudiantsStatus = new List<EtudiantAbsentModel>();
             foreach (var etudiant in etudiants)
             {
@@ -139,7 +136,7 @@ namespace GestionAbsencesMAUI.ViewModels
                 {
                     if (absence.EtudiantId == etudiant.Id)
                     {
-                        if (absence.IsPresent==1)
+                        if (absence.IsPresent == 1)
                         {
                             etudiantAbsent.isPresent = true;
                         }
@@ -151,9 +148,10 @@ namespace GestionAbsencesMAUI.ViewModels
                 }
                 etudiantsStatus.Add(etudiantAbsent);
             }
-         
+
         }
-      
+
+
         public async Task addAbsenceToDb(EtudiantAbsentModel etudiant)
         {
             Absence absence = new Absence
@@ -165,63 +163,19 @@ namespace GestionAbsencesMAUI.ViewModels
             await App.absenceServices.addAbsence(absence);
         }
 
-        public async Task getEtudiantsInFiliere()
+
+        public async Task saveInfoToDb()
         {
-            var data = await App.etudiantService.getEtudiantsInFiliere(CurrentFiliere!.Id);
-            if(data == null)
-            {
-                etudiants = new List<Etudiant>();
-            }
-            else
-            {
-                etudiants = data.ToList();
-            }
-        }
-
-        public async Task saveInfoToDb() {
             isLoading = true;
-
-
-            if (selectedDate == "Add new session" && formattedDate!=null )
+            if(etudiant!=null)
             {
-                if (CurrentSession!=null
-                    && CurrentSession.Date==formattedDate 
-                    && CurrentSession.FiliereModuleId==CurrentFiliereModule!.Id)
-                {
-                    foreach (var etudiant in etudiantsStatus)
-                    {
-                        await addAbsenceToDb(etudiant);
-                    }
-                }
-                else
-                {
-                    //add new session
-                    var newSession = new Session
-                    {
-                        Date = formattedDate!,
-                        FiliereModuleId = CurrentFiliereModule!.Id,
-                    };
-                    var respAddSession = await App.sessionServices.addSession(newSession);
-                    //add absences
-                    if (respAddSession.Id != 0)
-                    {
-                        CurrentSession = respAddSession;
-                        foreach (var etudiant in etudiantsStatus)
-                        {
-                            await addAbsenceToDb(etudiant);
-                        }
-                    }
-                }
-                
-            }
-            else {
-                foreach (var etudiant in etudiantsStatus)
-                {
-                    await addAbsenceToDb(etudiant);
-                }
+                await addAbsenceToDb(etudiantStatus);
             }
             isLoading = false;
         }
 
+
     }
 }
+        
+

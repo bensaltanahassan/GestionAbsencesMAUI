@@ -10,8 +10,6 @@ namespace GestionAbsencesMAUI.Services
 {
     public class EtudiantService
     {
-        //here add the logic of the service of the student model (CRUD)
-
         public SQLiteAsyncConnection _db;
         public EtudiantService(string dbPath)
         {
@@ -58,6 +56,38 @@ namespace GestionAbsencesMAUI.Services
             }
         }
 
+        //get etudiant in filiere
+        public async Task<List<Etudiant>> getEtudiantsInFiliere(int filiereId)
+        {
+            try
+            {
+                return await _db.Table<Etudiant>().Where(etudiant => etudiant.filiereId == filiereId).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting students in filiere: {ex.Message}");
+                return null;
+            }
+        }
+        public async Task<Etudiant> getEtudiantInFiliereByCne(int filiereId, string cne)
+        {
+            try
+            {
+                Etudiant etd = await _db.Table<Etudiant>().Where(etudiant => etudiant.filiereId == filiereId && etudiant.Cne == cne).FirstOrDefaultAsync();
+                if(etd == null)
+                {
+                    return null;
+                }else
+                {
+                    return etd;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting student in filiere by cne: {ex.Message}");
+                return null;
+            }
+        }
 
         public async Task<Etudiant> getEtudiantById(int id)
         {
@@ -69,6 +99,22 @@ namespace GestionAbsencesMAUI.Services
             {
                 Console.WriteLine($"Error getting student by id: {ex.Message}");
                 return null;
+            }
+        }
+
+        
+        public async Task<List<Etudiant>> GetEtudiantsInModule(int moduleId)
+        {
+            try
+            {
+                var filiereModules = await _db.Table<FiliereModule>().Where(fm => fm.ModuleId == moduleId).ToListAsync();
+                var etudiantIds = filiereModules.Select(fm => fm.FiliereId);
+                return await _db.Table<Etudiant>().Where(etudiant => etudiantIds.Contains(etudiant.Id)).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting students in module: {ex.Message}");
+                return new List<Etudiant>();
             }
         }
 
