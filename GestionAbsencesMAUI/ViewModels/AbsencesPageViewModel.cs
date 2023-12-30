@@ -1,4 +1,5 @@
 ﻿using GestionAbsencesMAUI.Models;
+using GestionAbsencesMAUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,9 @@ namespace GestionAbsencesMAUI.ViewModels
         public List<Absence> absences { get; set; }
 
 
+        public List<Etudiant> etudiants { get; set; }
+
+        public List<EtudiantAbsentModel> etudiantsAbsents { get; set; }
 
 
         public int profId { get; set; }
@@ -79,6 +83,8 @@ namespace GestionAbsencesMAUI.ViewModels
             CurrentFiliere = filiere;
             var fm = await App.filiereModuleServices.getFiliereModule(CurrentModule!.Id, filiere.Id);
             CurrentFiliereModule = fm;
+
+            //get the sessions of the filiereModule
             var data = await App.sessionServices.GetSessionByFiliereModuleAsync(fm);
             sessions = data.ToList();
             sessionsDates = new List<String>();
@@ -87,6 +93,11 @@ namespace GestionAbsencesMAUI.ViewModels
                 sessionsDates.Add(session.Date.ToString());
             }
             sessionsDates.Add("Add new session");
+
+            //get the etudiants in the filiere
+            await getEtudiantsInFiliere();
+
+
         }
 
         public async Task OnSelectedSessionChanged(string selectedSession)
@@ -100,8 +111,39 @@ namespace GestionAbsencesMAUI.ViewModels
                 CurrentSession = session;
                 var data = await App.absenceServices.GetAbsencesInSession(session.Id);
                 absences = data.ToList();
+
+                
+
+
             }
         }
+
+
+        public void getEtudiantsAbsences() {
+            etudiantsAbsents = new List<EtudiantAbsentModel>();
+            foreach (var etudiant in etudiants)
+            {
+                EtudiantAbsentModel etudiantAbsent = new EtudiantAbsentModel();
+                etudiantAbsent.etudiant = etudiant;
+                etudiantAbsent.isAbsent = false;
+
+                foreach (var absence in absences)
+                {
+                    if (absence.EtudiantId == etudiant.Id)
+                    {
+                        etudiantAbsent.isAbsent = true;
+                    }
+                }
+                etudiantsAbsents.Add(etudiantAbsent);
+            }
+            foreach (var etudiant in etudiantsAbsents)
+            {
+                Console.WriteLine("Etudiant: " + etudiant.etudiant.Nom + " is absent: " + etudiant.isAbsent);
+            }
+        }
+
+
+
 
         public async Task addSessionToDb(string date)
         {
@@ -112,5 +154,35 @@ namespace GestionAbsencesMAUI.ViewModels
             };
             await App.sessionServices.addSession(session);
         }
+
+        public async Task addAbsenceToDb(int etudiantId)
+        {
+            Absence absence = new Absence
+            {
+                EtudiantId = etudiantId,
+                SessionId = CurrentSession!.Id,
+            };
+            await App.absenceServices.addAbsence(absence);
+        }
+
+        public async Task getEtudiantsInFiliere()
+        {
+            var data = await App.etudiantService.getEtudiantsInFiliere(CurrentFiliere!.Id);
+            if(data == null)
+            {
+                etudiants = new List<Etudiant>();
+            }
+            else
+            {
+                etudiants = data.ToList();
+            }
+           
+
+            foreach (var etudiant in etudiants)
+            {
+                Console.WriteLine("Etudiant: " + etudiant.Nom);
+            }
+        }
+
     }
 }

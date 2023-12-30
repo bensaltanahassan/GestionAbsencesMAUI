@@ -30,6 +30,8 @@ namespace GestionAbsencesMAUI.Services
             }
         }
 
+
+
         public async Task<bool> ajouterEtudiant(Etudiant etudiant)
         {
             try
@@ -54,6 +56,20 @@ namespace GestionAbsencesMAUI.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting all students: {ex.Message}");
+                return null;
+            }
+        }
+
+        //get etudiant in filiere
+        public async Task<List<Etudiant>> getEtudiantsInFiliere(int filiereId)
+        {
+            try
+            {
+                return await _db.Table<Etudiant>().Where(etudiant => etudiant.filiereId == filiereId).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting students in filiere: {ex.Message}");
                 return null;
             }
         }
