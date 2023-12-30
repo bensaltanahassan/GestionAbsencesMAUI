@@ -31,10 +31,14 @@ namespace GestionAbsencesMAUI.ViewModels
         public List<Absence> absences { get; set; }
 
         public Etudiant etudiant { get; set; }
+        public EtudiantAbsentModel etudiantStatus { get; set; }
 
+        public List<Etudiant> etudiants { get; set; }
         public List<EtudiantAbsentModel> etudiantsStatus { get; set; }
+        
 
         public int profId { get; set; }
+        public string cne { get; set; }
 
         public SearchPageViewModel()
         {
@@ -83,24 +87,76 @@ namespace GestionAbsencesMAUI.ViewModels
             {
                 sessionsDates.Add(session.Date.ToString());
             }
-            sessionsDates.Add("Add new session");
 
             //get the etudiants in the filiere
-            await getEtudiantInFiliere();
+            await getEtudiantsInFiliere();
         }
-        public async Task getEtudiantInFiliere()
+        public async Task getEtudiantsInFiliere()
         {
             var data = await App.etudiantService.getEtudiantsInFiliere(CurrentFiliere!.Id);
             if (data == null)
             {
-                etudiant = new Etudiant();
+                etudiants = new List<Etudiant>();
             }
             else
             {
-                etudiant = data;
+                etudiants = data.ToList();
             }
         }
-        
+        public async Task getEtudiantInFiliere()
+        {
+            etudiant = await App.etudiantService.getEtudiantInFiliereByCne(CurrentFiliere!.Id,cne);
+        }
+        public async Task OnSelectedSessionChanged()
+        {
+            
+            Session session = sessions.FirstOrDefault(m => m.Date.ToString() == selectedDate)!;
+            CurrentSession = session;
+            var data = await App.absenceServices.GetAbsencesInSession(session.Id);
+            absences = data.ToList();
+
+            
+            getEtudiantsStatus();
+            etudiantStatus = etudiantsStatus.FirstOrDefault(m => m.etudiant.Cne == cne);
+            if (etudiantStatus == null)
+            {
+                etudiant = null;
+            }
+            else
+            {
+                etudiant = etudiantStatus.etudiant;
+            }
+        }
+        public void getEtudiantsStatus()
+        {
+            etudiantsStatus = new List<EtudiantAbsentModel>();
+            foreach (var etudiant in etudiants)
+            {
+                EtudiantAbsentModel etudiantAbsent = new EtudiantAbsentModel();
+                etudiantAbsent.etudiant = etudiant;
+                etudiantAbsent.isPresent = false;
+                foreach (var absence in absences)
+                {
+                    if (absence.EtudiantId == etudiant.Id)
+                    {
+                        if (absence.IsPresent == 1)
+                        {
+                            etudiantAbsent.isPresent = true;
+                        }
+                        else
+                        {
+                            etudiantAbsent.isPresent = false;
+                        }
+                    }
+                }
+                etudiantsStatus.Add(etudiantAbsent);
+            }
+
+        }
+
+
+
+
     }
         
 }

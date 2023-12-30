@@ -47,8 +47,8 @@
                              Grid.Row="1"
                              Grid.Column="0">
                             <Editor
-                                x:Name="NomEditor"
-                                Placeholder="Enter Your Name"
+                                x:Name="CneEditor"
+                                Placeholder="Enter Your CNE"
                                 Text="{Binding Nom}"
                                 HeightRequest="50"
                                 FontSize="18"
