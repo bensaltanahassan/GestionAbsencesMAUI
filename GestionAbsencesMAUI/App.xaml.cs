@@ -117,6 +117,5 @@ namespace GestionAbsencesMAUI
             //TestDbService testDbService = new TestDbService();
             //await testDbService.insertInitialData();
         }
-        */
     }
 }
