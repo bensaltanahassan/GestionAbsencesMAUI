@@ -38,7 +38,8 @@ namespace GestionAbsencesMAUI.ViewModels
         
 
         public int profId { get; set; }
-        public string cne { get; set; }
+
+        public Boolean isLoading { get; set; }
 
         public SearchPageViewModel()
         {
@@ -103,11 +104,7 @@ namespace GestionAbsencesMAUI.ViewModels
                 etudiants = data.ToList();
             }
         }
-        public async Task getEtudiantInFiliere()
-        {
-            etudiant = await App.etudiantService.getEtudiantInFiliereByCne(CurrentFiliere!.Id,cne);
-        }
-        public async Task OnSelectedSessionChanged()
+        public async Task OnSelectedSessionChanged(string cne)
         {
             
             Session session = sessions.FirstOrDefault(m => m.Date.ToString() == selectedDate)!;
@@ -155,8 +152,30 @@ namespace GestionAbsencesMAUI.ViewModels
         }
 
 
+        public async Task addAbsenceToDb(EtudiantAbsentModel etudiant)
+        {
+            Absence absence = new Absence
+            {
+                EtudiantId = etudiant.etudiant.Id,
+                SessionId = CurrentSession!.Id,
+                IsPresent = etudiant.isPresent ? 1 : 0
+            };
+            await App.absenceServices.addAbsence(absence);
+        }
+
+
+        public async Task saveInfoToDb()
+        {
+            isLoading = true;
+            if(etudiant!=null)
+            {
+                await addAbsenceToDb(etudiantStatus);
+            }
+            isLoading = false;
+        }
 
 
     }
-        
 }
+        
+
