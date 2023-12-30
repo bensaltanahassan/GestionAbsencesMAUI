@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionAbsencesMAUI.Views.StudentPage"
+             Title="StudentPage">
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+           
+            <StackLayout >
+
+                <Label Text="ADD Student" FontSize="20" TextColor="White" Padding="15" Background="#05b790"  />
+
+                <Label Text="You can enroll a student by filling out this form." FontSize="16"  TextColor="Gray" Padding="15" />
+            </StackLayout>
+
+           
+            <StackLayout Grid.Row="1" Padding="10">
+                <Label Text="CNE:" />
+                <Entry x:Name="CneEntry" Text="{Binding CneEntry}" />
+
+                <Label Text="Nom:" />
+                <Entry x:Name="NomEntry" Text="{Binding NomEntry}" />
+
+                <Label Text="Prenom:" />
+                <Entry x:Name="PrenomEntry" Text="{Binding PrenomEntry}" />
+
+                <Label Text="Email:" />
+                <Entry x:Name="EmailEntry" Text="{Binding EmailEntry}" />
+
+                <Label Text="Phone:" />
+                <Entry x:Name="PhoneEntry" Text="{Binding PhoneEntry}" />
+
+                <Label Text="Select Filiere:" />
+                <Picker x:Name="FilierePicker" Title="" SelectedItem="{Binding SelectedFiliere}" ItemsSource="{Binding Filieres}">
+                    <Picker.ItemDisplayBinding>
+                        <Binding Path="Nom" />
+                    </Picker.ItemDisplayBinding>
+                </Picker>
+
+                <Grid Padding="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                   
+                    <Button Grid.Column="0" Text="Add Student" Command="{Binding AjouterEtudiantCommand}" BackgroundColor="#3498DB" TextColor="White" Padding="20" Margin="10" />
+
+                    <Button Grid.Column="1" Text="Show All Students" Command="{Binding AfficherTousLesEtudiantsCommand}" BackgroundColor="#05b790" TextColor="White" Padding="20" Margin="10" />
+                </Grid>
+
+
+            </StackLayout>
+
+            <ListView Grid.Row="2" x:Name="ListViewEtudiants" ItemsSource="{Binding ListeDesEtudiants}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame CornerRadius="10" Margin="10" HasShadow="True">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                      
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Column="0" Text="{Binding Nom}" FontAttributes="Bold" />
+                                    <Label Grid.Column="1" Text="{Binding Prenom}" />
+                                    <Label Grid.Column="2" Text="{Binding Email}" />
+                                
+
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ScrollView>
+
+</ContentPage>
