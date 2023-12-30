@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionAbsencesMAUI.Views.SearchPage"
+             Title="Page de recherche">
+    <StackLayout
+        >
+        <HorizontalStackLayout Padding="20,0,20,0"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       HeightRequest="60"
+                       BackgroundColor="Aqua">
+            <Label Text="Rechercher étudiant"
+           VerticalOptions="CenterAndExpand"
+           FontSize="Large"
+           FontAttributes="Bold"
+           TextColor="Black" />
+        </HorizontalStackLayout>
+        <ScrollView VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Orientation="Vertical"
+            Padding="20,0,20,0">
+            <StackLayout Orientation="Vertical"
+             Padding="0,0,0,0"
+             Spacing="0"
+             HorizontalOptions="FillAndExpand"
+             VerticalOptions="FillAndExpand"
+             Margin="0">
+                <Frame Margin="0,10,0,0">
+                    <Grid HorizontalOptions="FillAndExpand"
+                        RowDefinitions="*,*,*,*,*,*,*,*"
+                        ColumnDefinitions="*"
+                        RowSpacing="5"
+                        ColumnSpacing="20">
+                        <Label Text="Name:"
+                            VerticalOptions="Center"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            Grid.Row="0"
+                            Grid.Column="0" />
+                        <Frame HorizontalOptions="FillAndExpand"
+                             VerticalOptions="Center"
+                             Padding="5"
+                             CornerRadius="8"
+                             BackgroundColor="#ECECEC"
+                             Grid.Row="1"
+                             Grid.Column="0">
+                            <Editor
+                                x:Name="NomEditor"
+                                Placeholder="Enter Your Name"
+                                Text="{Binding Nom}"
+                                HeightRequest="50"
+                                FontSize="18"
+                                />
+                        </Frame>
+                        <Label Text="Module:"
+                            VerticalOptions="Center"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            Grid.Row="2"
+                            Grid.Column="0" />
+                        <Frame HorizontalOptions="FillAndExpand"
+                                VerticalOptions="Center"
+                                Padding="5"
+                                CornerRadius="8"
+                                BackgroundColor="#ECECEC"
+                                Grid.Row="3"
+                                Grid.Column="0">
+                                <Picker x:Name="ModulePicker"
+                                    Title="Select a Module"
+                                    ItemsSource="{Binding ModulesNames}" />
+                        </Frame>
+                        <Label Text="Filiere:"
+                            VerticalOptions="Center"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            Grid.Row="4"
+                            Grid.Column="1" />
+                        <Frame HorizontalOptions="FillAndExpand"
+                             VerticalOptions="Center"
+                             Padding="5"
+                             CornerRadius="8"
+                             BackgroundColor="#ECECEC"
+                             Grid.Row="5"
+                             Grid.Column="1">
+                            <Picker Title="Select a Filiere"
+                                x:Name="FilierePicker"
+                                ItemsSource="{Binding filieresNames}" />
+                        </Frame>
+                        <Label Text="Session:"
+                             VerticalOptions="Center"
+                             FontSize="Large"
+                             FontAttributes="Bold"
+                             TextColor="Black"
+                             Margin="0,10,0,0"
+                             Grid.Row="6"
+                             Grid.Column="0" />
+                        <Frame HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center"
+                            Padding="5"
+                            CornerRadius="8"
+                            BackgroundColor="#ECECEC"
+                            Grid.Row="7"
+                            Grid.Column="0">
+                            <Picker Title="Select a Date"
+                                x:Name="DatesPicker"
+                            />
+                        </Frame>
+                    </Grid>
+                </Frame>
+                <Label Text="Etudiant recherché:"
+                       VerticalOptions="Center"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       Margin="20,20,20,15" />
+                <Frame Margin="0,5"
+                    Padding="10">
+                    <Grid HorizontalOptions="FillAndExpand"
+                        ColumnDefinitions="*,Auto">
+                        <Label Text="{Binding etudiant.Nom}"
+                            VerticalOptions="Center"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            Grid.Row="0"
+                            Grid.Column="0" />
+                        <CheckBox Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalOptions="End"
+                            VerticalOptions="Center"
+                            IsChecked="{Binding isPresent}"
+                        />
+                    </Grid>
+                </Frame>
+                <StackLayout Orientation="Horizontal"
+                     Padding="0,20,0,20"
+                     Spacing="40"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="End"
+                             Margin="0,20,0,0">
+
+                    <ProgressBar
+                    x:Name="progressBar"
+                    IsVisible="False"
+                    ProgressColor="Green"
+                    HorizontalOptions="FillAndExpand"
+                    Progress="0"
+                    HeightRequest="30"
+                    WidthRequest="100"
+                    Margin="0,0,0,0"
+                    />
+                    <Button x:Name="SaveButton"
+                    IsVisible="True"
+                    Text="Enregistrer"
+                    HorizontalOptions="FillAndExpand"
+                    TextColor="White"
+                    Background="Green"
+                    FontSize="18"
+                    FontAttributes="Bold" />
+                    <Button x:Name="CancelButton"
+                    Text="Annuler"
+                    HorizontalOptions="FillAndExpand"
+                    TextColor="White"
+                    Background="Red"
+                    FontSize="18"
+                    FontAttributes="Bold" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView> 
+    </StackLayout>
+</ContentPage>
