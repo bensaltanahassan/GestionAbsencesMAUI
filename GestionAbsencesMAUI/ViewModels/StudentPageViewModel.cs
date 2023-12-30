@@ -14,12 +14,43 @@ namespace GestionAbsencesMAUI.ViewModels
 
         public ObservableCollection<Etudiant> ListeDesEtudiants { get; set; }
 
+ 
+        private ObservableCollection<Filiere> _filieres;
+        public ObservableCollection<Filiere> Filieres
+        {
+            get => _filieres;
+            set
+            {
+                _filieres = value;
+                OnPropertyChanged(nameof(Filieres));
+            }
+        }
+
+        private Filiere _selectedFiliere;
+        public Filiere SelectedFiliere
+        {
+            get => _selectedFiliere;
+            set
+            {
+                _selectedFiliere = value;
+                OnPropertyChanged(nameof(SelectedFiliere));
+            }
+        }
+
+      
+        private async Task LoadFilieres()
+        {
+            var filieres = await App.filiereServices.GetFilieresAsync();
+            Filieres = new ObservableCollection<Filiere>(filieres);
+        }
+
         public StudentPageViewModel()
         {
             _etudiantService = App.etudiantService;
             AjouterEtudiantCommand = new Command(async () => await AjouterEtudiant());
             AfficherTousLesEtudiantsCommand = new Command(AfficherTousLesEtudiants);
             ListeDesEtudiants = new ObservableCollection<Etudiant>();
+            Task.Run(async () => await LoadFilieres());
         }
 
         public Command AjouterEtudiantCommand { get; }
@@ -33,7 +64,7 @@ namespace GestionAbsencesMAUI.ViewModels
                 Prenom = PrenomEntry,
                 Email = EmailEntry,
                 Phone = PhoneEntry,
-                filiereId = int.Parse(FiliereIdEntry)
+                filiereId = SelectedFiliere?.Id ?? 0
             };
 
             bool ajoutReussi = await _etudiantService.ajouterEtudiant(etudiant);

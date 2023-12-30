@@ -11,16 +11,15 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Titre -->
+           
             <StackLayout >
-                <!-- Titre -->
+
                 <Label Text="ADD Student" FontSize="20" TextColor="White" Padding="15" Background="#05b790"  />
 
-                <!-- Description -->
                 <Label Text="You can enroll a student by filling out this form." FontSize="16"  TextColor="Gray" Padding="15" />
             </StackLayout>
 
-            <!-- Formulaire d'ajout d'étudiant -->
+           
             <StackLayout Grid.Row="1" Padding="10">
                 <Label Text="CNE:" />
                 <Entry x:Name="CneEntry" Text="{Binding CneEntry}" />
@@ -37,8 +36,12 @@
                 <Label Text="Phone:" />
                 <Entry x:Name="PhoneEntry" Text="{Binding PhoneEntry}" />
 
-                <Label Text="Filiere ID:" />
-                <Entry x:Name="FiliereIdEntry" Text="{Binding FiliereIdEntry}" />
+                <Label Text="Select Filiere:" />
+                <Picker x:Name="FilierePicker" Title="" SelectedItem="{Binding SelectedFiliere}" ItemsSource="{Binding Filieres}">
+                    <Picker.ItemDisplayBinding>
+                        <Binding Path="Nom" />
+                    </Picker.ItemDisplayBinding>
+                </Picker>
 
                 <Grid Padding="20">
                     <Grid.ColumnDefinitions>
@@ -46,17 +49,15 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <!-- Bouton Ajouter Étudiant -->
+                   
                     <Button Grid.Column="0" Text="Add Student" Command="{Binding AjouterEtudiantCommand}" BackgroundColor="#3498DB" TextColor="White" Padding="20" Margin="10" />
 
-                    <!-- Bouton Afficher Tous les Étudiants -->
                     <Button Grid.Column="1" Text="Show All Students" Command="{Binding AfficherTousLesEtudiantsCommand}" BackgroundColor="#05b790" TextColor="White" Padding="20" Margin="10" />
                 </Grid>
 
 
             </StackLayout>
 
-            <!-- Liste des étudiants -->
             <ListView Grid.Row="2" x:Name="ListViewEtudiants" ItemsSource="{Binding ListeDesEtudiants}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -68,13 +69,13 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
-                                        <!-- Ajoutez des colonnes supplémentaires pour chaque champ -->
+                                      
                                     </Grid.ColumnDefinitions>
 
                                     <Label Grid.Column="0" Text="{Binding Nom}" FontAttributes="Bold" />
                                     <Label Grid.Column="1" Text="{Binding Prenom}" />
                                     <Label Grid.Column="2" Text="{Binding Email}" />
-                                    <!-- Ajoutez des labels supplémentaires pour chaque champ -->
+                                
 
                                 </Grid>
                             </Frame>
