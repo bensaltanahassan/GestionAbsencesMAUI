@@ -77,7 +77,14 @@ namespace GestionAbsencesMAUI.Services
         {
             try
             {
-                return await _db.Table<Etudiant>().Where(etudiant => etudiant.filiereId == filiereId && etudiant.Cne == cne).FirstOrDefaultAsync();
+                Etudiant etd = await _db.Table<Etudiant>().Where(etudiant => etudiant.filiereId == filiereId && etudiant.Cne == cne).FirstOrDefaultAsync();
+                if(etd == null)
+                {
+                    return null;
+                }else
+                {
+                    return etd;
+                }
             }
             catch (Exception ex)
             {
