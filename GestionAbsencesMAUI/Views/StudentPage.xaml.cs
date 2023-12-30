@@ -4,7 +4,8 @@ namespace GestionAbsencesMAUI.Views;
 
 public partial class StudentPage : ContentPage
 {
-	public StudentPage()
+    private InfoPageViewModel _viewModel;
+    public StudentPage()
 	{
         InitializeComponent();
         BindingContext = new StudentPageViewModel();

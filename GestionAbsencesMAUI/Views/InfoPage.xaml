@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="GestionAbsencesMAUI.Views.InfoPage"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
+
+    <StackLayout>
+        <!-- Titre -->
+        <StackLayout >
+            <!-- Titre -->
+            <Label Text="Student Info" FontSize="20" TextColor="White" Padding="15" Background="#05b790"  />
+
+        </StackLayout>
+
+        <!-- Description -->
+        <Label Text="Choose a course :" FontSize="16"  TextColor="Gray" Padding="5" />
+        <Picker x:Name="ModulePicker" Title="" SelectedIndexChanged="ModulePicker_SelectedIndexChanged">
+        </Picker>
+
+        <Label Text="Choose a student in this course :" FontSize="16"  TextColor="Gray" Padding="5" />
+        <Picker Title="" x:Name="EtudiantPicker" SelectedIndexChanged="EtudiantPicker_SelectedIndexChanged">
+        </Picker>
+
+        <Button Text="Show the attendance status" x:Name="AfficherAbsencesButton" Clicked="AfficherAbsences_Clicked" Margin="20" Background="#3498DB" />
+
+        
+            <StackLayout x:Name="FramesStackLayout" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            <Frame x:Name="ResultLabelFrame" BackgroundColor="#E74C3C" CornerRadius="5" Margin="1" IsVisible="False">
+                    <Label x:Name="ResultLabel" Text="" TextColor="White" />
+                </Frame>
+
+            <Frame x:Name="ResultLabel2Frame" BackgroundColor="#2ECC71" CornerRadius="5" Margin="1" IsVisible="False">
+                    <Label x:Name="ResultLabel2" Text="" TextColor="White" />
+                </Frame>
+            </StackLayout>
+       
+    </StackLayout>
+
+</ContentPage>
+

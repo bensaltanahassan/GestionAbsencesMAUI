@@ -10,7 +10,7 @@ namespace GestionAbsencesMAUI.Services
 {
     public class EtudiantService
     {
-        //here add the logic of the service of the student model (CRUD)
+       
 
         public SQLiteAsyncConnection _db;
         public EtudiantService(string dbPath)
@@ -69,6 +69,22 @@ namespace GestionAbsencesMAUI.Services
             {
                 Console.WriteLine($"Error getting student by id: {ex.Message}");
                 return null;
+            }
+        }
+
+        
+        public async Task<List<Etudiant>> GetEtudiantsInModule(int moduleId)
+        {
+            try
+            {
+                var filiereModules = await _db.Table<FiliereModule>().Where(fm => fm.ModuleId == moduleId).ToListAsync();
+                var etudiantIds = filiereModules.Select(fm => fm.FiliereId);
+                return await _db.Table<Etudiant>().Where(etudiant => etudiantIds.Contains(etudiant.Id)).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting students in module: {ex.Message}");
+                return new List<Etudiant>();
             }
         }
 
