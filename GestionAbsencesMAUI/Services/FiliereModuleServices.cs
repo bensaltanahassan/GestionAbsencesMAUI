@@ -112,20 +112,7 @@ namespace GestionAbsencesMAUI.Services
             return new List<Etudiant>();
         }
 
-        public async Task<List<Etudiant>> GetEtudiantsInModule(int moduleId)
-        {
-            try
-            {
-                var etudiants = await _db.QueryAsync<Etudiant>(
-                    "SELECT * FROM Etudiant WHERE Id IN (SELECT EtudiantId FROM Absence WHERE SessionId IN (SELECT Id FROM Session WHERE FiliereModuleId IN (SELECT Id FROM FiliereModule WHERE ModuleId = ?)))", moduleId);
-                return etudiants;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            return new List<Etudiant>();
-        }
+        
 
     }
 }
