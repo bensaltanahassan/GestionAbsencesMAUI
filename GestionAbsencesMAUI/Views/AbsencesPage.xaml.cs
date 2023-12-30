@@ -1,4 +1,5 @@
 using GestionAbsencesMAUI.Models;
+using GestionAbsencesMAUI.Utils;
 using GestionAbsencesMAUI.ViewModels;
 using System.Collections.ObjectModel;
 
@@ -50,6 +51,7 @@ public partial class AbsencesPage : ContentPage
         var selectedDate = (sender as Picker)?.SelectedItem as string;
         if (selectedDate != null)
         {
+            
             if (selectedDate=="Add new session")
             {
                 this.DatePicker.IsVisible = true;
@@ -58,18 +60,76 @@ public partial class AbsencesPage : ContentPage
             {
                 this.DatePicker.IsVisible = false;
                 viewModel.selectedDate = selectedDate;
-                await viewModel.OnSelectedSessionChanged(selectedDate);
+                await viewModel.OnSelectedSessionChanged();
+                this.StudentsCollectionView.ItemsSource = viewModel.etudiantsStatus;
             }
+
         }
     }
 
     private async void OnDateSelected(object sender, DateChangedEventArgs e)
     {
-        var selectedDate = e.NewDate.ToString("dd/MM/yyyy"); 
+        var formattedDate = e.NewDate.ToString("dd/MM/yyyy"); 
+        viewModel.formattedDate = formattedDate;
+        var selectedDate = "Add new session";
         viewModel.selectedDate = selectedDate;
-        await viewModel.OnSelectedSessionChanged(selectedDate);
+        await viewModel.OnSelectedSessionChanged();
+        this.StudentsCollectionView.ItemsSource = viewModel.etudiantsStatus;
+
     }
 
+
+    private void OnCheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        var checkbox = (sender as CheckBox);
+        foreach (var etudiant in viewModel.etudiantsStatus)
+        {
+            Console.WriteLine($"Etudiant: {etudiant.etudiant.Nom} {etudiant.etudiant.Prenom}");
+            Console.WriteLine($"Checkbox: {etudiant.isPresent}");
+        }
+    }
+
+
+
+    private async Task IncrementProgressBar()
+    {
+        double progress = 0;
+        double targetProgress = 1.0;
+        const int animationDurationSeconds = 1;
+        double increment = 0.01;
+        double animationStep = targetProgress / (animationDurationSeconds * (1.0 / increment));
+
+        while (progress < targetProgress)
+        {
+            progress += animationStep;
+            if (progress > targetProgress)
+            {
+                progress = targetProgress;
+            }
+            this.progressBar.IsVisible = true;
+            this.SaveButton.IsVisible = false;
+            this.progressBar.Progress = progress;
+
+            await Task.Delay(TimeSpan.FromSeconds(increment));
+
+            //await viewModel.saveInfoToDb();
+        }
+
+        this.progressBar.IsVisible = false;
+        this.SaveButton.IsVisible = true;
+
+        await DisplayAlert("Success", "Absences saved successfully", "OK");
+    }
+
+
+    private void OnSaveButtonClicked(object sender, EventArgs e)
+    {
+        Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+        {
+            IncrementProgressBar();
+            return false; 
+        });
+    }
 
 
 }

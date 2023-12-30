@@ -6,21 +6,7 @@
              xmlns:local="clr-namespace:GestionAbsencesMAUI.ViewModels">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <x:Array x:Key="StudentsArray"
-                     Type="{x:Type x:String}">
-                <x:String>Student 1</x:String>
-                <x:String>Student 2</x:String>
-                <x:String>Student 3</x:String>
-                <x:String>Student 4</x:String>
-                <x:String>Student 5</x:String>
-                <x:String>Student 6</x:String>
-                <x:String>Student 7</x:String>
-                <x:String>Student 8</x:String>
-                <x:String>Student 9</x:String>
-                <x:String>Student 10</x:String>
-                <x:String>Student 11</x:String>
-                <x:String>Student 12</x:String>
-            </x:Array>
+            
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout>
@@ -115,7 +101,7 @@
                                     Grid.Column="1"
                                     IsVisible="False"
                                     DateSelected="OnDateSelected"
-                                    Format="D"
+                                    Format="dd/MM/yyyy"
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center"
                                     Margin="0,10,0,0" />
@@ -127,15 +113,14 @@
                        FontAttributes="Bold"
                        TextColor="Black"
                        Margin="20,20,20,15" />
-                <CollectionView x:Name="StudentsCollectionView"
-                                ItemsSource="{StaticResource StudentsArray}">
+                <CollectionView x:Name="StudentsCollectionView">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame Margin="0,5"
                                    Padding="10">
                                 <Grid HorizontalOptions="FillAndExpand"
                                       ColumnDefinitions="*,Auto">
-                                    <Label Text="{Binding .}"
+                                    <Label Text="{Binding etudiant.Nom}"
                                            VerticalOptions="Center"
                                            FontSize="Large"
                                            FontAttributes="Bold"
@@ -146,7 +131,9 @@
                                               Grid.Column="1"
                                               HorizontalOptions="End"
                                               VerticalOptions="Center"
-                                              IsChecked="True" />
+                                              IsChecked="{Binding isPresent}"
+                                              CheckedChanged="OnCheckedChanged"
+                                    />
                                 </Grid>
                             </Frame>
                         </DataTemplate>
@@ -160,12 +147,25 @@
                      Spacing="10"
                      HorizontalOptions="FillAndExpand"
                      VerticalOptions="End">
+
+            <ProgressBar
+                x:Name="progressBar"
+                IsVisible="False"
+                ProgressColor="Green"
+                HorizontalOptions="FillAndExpand"
+                Progress="0"
+                HeightRequest="30"
+                WidthRequest="100"
+                Margin="0,0,0,0"
+            />
             <Button x:Name="SaveButton"
+                    IsVisible="True"
                     Text="Enregistrer"
                     HorizontalOptions="FillAndExpand"
                     TextColor="White"
                     Background="Green"
                     FontSize="18"
+                    Clicked="OnSaveButtonClicked"
                     FontAttributes="Bold" />
             <Button x:Name="CancelButton"
                     Text="Annuler"

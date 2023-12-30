@@ -28,7 +28,17 @@ namespace GestionAbsencesMAUI.Services
         {
             try
             {
-                return await _db.InsertAsync(absence);
+                var ab = await _db.Table<Models.Absence>().Where(abs => abs.SessionId == absence.SessionId && abs.EtudiantId == absence.EtudiantId).
+                    FirstOrDefaultAsync();
+                if (ab != null)
+                {
+                    ab.IsPresent = absence.IsPresent;
+                    return await _db.UpdateAsync(ab);
+                }
+                else
+                {
+                    return await _db.InsertAsync(absence);
+                }
             }
             catch (Exception ex)
             {

@@ -10,6 +10,6 @@ namespace GestionAbsencesMAUI.Utils
     public class EtudiantAbsentModel
     {
         public Etudiant etudiant { get; set; }
-        public bool isAbsent { get; set; }
+        public bool isPresent { get; set; }
     }
 }
