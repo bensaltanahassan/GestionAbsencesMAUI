@@ -32,7 +32,7 @@
                         ColumnDefinitions="*"
                         RowSpacing="5"
                         ColumnSpacing="20">
-                        <Label Text="Name:"
+                        <Label Text="CNE:"
                             VerticalOptions="Center"
                             FontSize="Large"
                             FontAttributes="Bold"
@@ -47,8 +47,8 @@
                              Grid.Row="1"
                              Grid.Column="0">
                             <Editor
-                                x:Name="NomEditor"
-                                Placeholder="Enter Your Name"
+                                x:Name="CneEditor"
+                                Placeholder="Enter Your CNE"
                                 Text="{Binding Nom}"
                                 HeightRequest="50"
                                 FontSize="18"
@@ -70,7 +70,8 @@
                                 Grid.Column="0">
                                 <Picker x:Name="ModulePicker"
                                     Title="Select a Module"
-                                    ItemsSource="{Binding ModulesNames}" />
+                                    ItemsSource="{Binding ModulesNames}"
+                                        SelectedIndexChanged="OnModuleSelectedIndexChanged"/>
                         </Frame>
                         <Label Text="Filiere:"
                             VerticalOptions="Center"
@@ -88,7 +89,8 @@
                              Grid.Column="1">
                             <Picker Title="Select a Filiere"
                                 x:Name="FilierePicker"
-                                ItemsSource="{Binding filieresNames}" />
+                                ItemsSource="{Binding filieresNames}" 
+                                     SelectedIndexChanged="OnFiliereSelectedIndexChanged" />
                         </Frame>
                         <Label Text="Session:"
                              VerticalOptions="Center"
@@ -107,6 +109,7 @@
                             Grid.Column="0">
                             <Picker Title="Select a Date"
                                 x:Name="DatesPicker"
+                                    SelectedIndexChanged="OnDateSelectedIndexChanged"
                             />
                         </Frame>
                     </Grid>
@@ -121,17 +124,22 @@
                     Padding="10">
                     <Grid HorizontalOptions="FillAndExpand"
                         ColumnDefinitions="*,Auto">
-                        <Label Text="{Binding etudiant.Nom}"
+                        <Label 
+                            x:Name="StudentName"
+                            Text="{Binding etudiant.Nom}"
                             VerticalOptions="Center"
                             FontSize="Large"
                             FontAttributes="Bold"
                             TextColor="Black"
                             Grid.Row="0"
                             Grid.Column="0" />
-                        <CheckBox Grid.Row="0"
+                        <CheckBox 
+                            x:Name="StudentCheckBox"
+                            Grid.Row="0"
                             Grid.Column="1"
                             HorizontalOptions="End"
                             VerticalOptions="Center"
+                            CheckedChanged="OnCheckedChanged"
                             IsChecked="{Binding isPresent}"
                         />
                     </Grid>
@@ -159,6 +167,7 @@
                     HorizontalOptions="FillAndExpand"
                     TextColor="White"
                     Background="Green"
+                    Clicked="OnSaveButtonClicked"
                     FontSize="18"
                     FontAttributes="Bold" />
                     <Button x:Name="CancelButton"

@@ -69,7 +69,25 @@ namespace GestionAbsencesMAUI.Services
                 return null;
             }
         }
-
+        public async Task<Etudiant> getEtudiantInFiliereByCne(int filiereId, string cne)
+        {
+            try
+            {
+                Etudiant etd = await _db.Table<Etudiant>().Where(etudiant => etudiant.filiereId == filiereId && etudiant.Cne == cne).FirstOrDefaultAsync();
+                if(etd == null)
+                {
+                    return null;
+                }else
+                {
+                    return etd;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting student in filiere by cne: {ex.Message}");
+                return null;
+            }
+        }
 
         public async Task<Etudiant> getEtudiantById(int id)
         {
