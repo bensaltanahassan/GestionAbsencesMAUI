@@ -22,5 +22,40 @@ namespace GestionAbsencesMAUI.Services
                 Console.WriteLine($"Error initializing database: {ex.Message}");
             }
         }
+
+
+        public async Task<int> addAbsence(Models.Absence absence)
+        {
+            try
+            {
+                return await _db.InsertAsync(absence);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            return 0;
+        }
+
+        // get all absences in a session
+        public async Task<List<Models.Absence>> GetAbsencesInSession(int sessionId)
+        {
+            try
+            {
+                return await _db.Table<Models.Absence>().Where(absence => absence.SessionId == sessionId).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            return new List<Models.Absence>();
+        }
     }
+
+
+    
+
+
+
+
 }

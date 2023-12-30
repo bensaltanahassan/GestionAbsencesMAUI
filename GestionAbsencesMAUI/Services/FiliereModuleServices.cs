@@ -37,6 +37,21 @@ namespace GestionAbsencesMAUI.Services
             return 0;
         }
 
+        //get filiereModule by moduleId and filiereId
+        public async Task<Models.FiliereModule> getFiliereModule(int moduleId, int filiereId)
+        {
+            try
+            {
+                return await _db.Table<Models.FiliereModule>().FirstOrDefaultAsync(
+                                       filiereModule => filiereModule.ModuleId == moduleId && filiereModule.FiliereId == filiereId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            return null;
+        }
+
         public async Task<int> deleteFiliereModule(Models.FiliereModule filiereModule)
         {
             try
@@ -64,21 +79,22 @@ namespace GestionAbsencesMAUI.Services
         }
 
 
-        
         public async Task<List<Models.Filiere>> GetFilieresThatHaveModule(int moduleId)
         {
             try
             {
                 var filieres = await _db.QueryAsync<Models.Filiere>(
-                "SELECT * FROM Filiere WHERE Id IN (SELECT FiliereId FROM FiliereModule WHERE ModuleId = ?)", moduleId);
-                return filieres;
+                    "SELECT * FROM Filiere WHERE Id IN (SELECT FiliereId FROM FiliereModule WHERE ModuleId = ?)", moduleId);
 
+                Console.WriteLine($"Filieres: {filieres.Count}");
+                return filieres;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                throw; // Re-throw the exception or handle it accordingly
             }
-            return new List<Models.Filiere>();
         }
+
     }
 }

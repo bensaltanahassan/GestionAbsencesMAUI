@@ -114,7 +114,9 @@ namespace GestionAbsencesMAUI.Services
         {
             try
             {
-                return await _db.Table<Models.Module>().Where(i => i.ProfesseurId == profId).ToListAsync();
+
+                var data = await _db.Table<Models.Module>().Where(i => i.ProfesseurId == profId).ToListAsync();
+                return data;
 
             }
             catch (Exception ex)

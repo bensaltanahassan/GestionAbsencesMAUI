@@ -2,25 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionAbsencesMAUI.Views.AbsencesPage"
-             Title="AbsencesPage">
+             Title="AbsencesPage"
+             xmlns:local="clr-namespace:GestionAbsencesMAUI.ViewModels">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <x:Array x:Key="ModuleArray"
-                     Type="{x:Type x:String}">
-                <x:String>Module 1</x:String>
-                <x:String>Module 2</x:String>
-                <x:String>Module 3</x:String>
-                <x:String>Module 4</x:String>
-                <x:String>Module 5</x:String>
-            </x:Array>
-            <x:Array x:Key="FiliereArray"
-                     Type="{x:Type x:String}">
-                <x:String>Filiere 1</x:String>
-                <x:String>Filiere 2</x:String>
-                <x:String>Filiere 3</x:String>
-                <x:String>Filiere 4</x:String>
-                <x:String>Filiere 5</x:String>
-            </x:Array>
             <x:Array x:Key="StudentsArray"
                      Type="{x:Type x:String}">
                 <x:String>Student 1</x:String>
@@ -62,7 +47,7 @@
                          Margin="0">
                 <Frame Margin="0,10,0,0">
                     <Grid HorizontalOptions="FillAndExpand"
-                          RowDefinitions="*,*"
+                          RowDefinitions="*,*,*,*"
                           ColumnDefinitions="*, *"
                           RowSpacing="5"
                           ColumnSpacing="20">
@@ -82,7 +67,8 @@
                                Grid.Column="0">
                             <Picker x:Name="ModulePicker"
                                     Title="Select a Module"
-                                    ItemsSource="{StaticResource ModuleArray}" />
+                                    ItemsSource="{Binding ModulesNames}"
+                                    SelectedIndexChanged="OnModuleSelectedIndexChanged" />
                         </Frame>
                         <Label Text="Filiere:"
                                VerticalOptions="Center"
@@ -100,8 +86,39 @@
                                Grid.Column="1">
                             <Picker Title="Select a Filiere"
                                     x:Name="FilierePicker"
-                                    ItemsSource="{StaticResource FiliereArray}" />
+                                    ItemsSource="{Binding filieresNames}"
+                                    SelectedIndexChanged="OnFiliereSelectedIndexChanged" />
                         </Frame>
+                        <Label Text="Session:"
+                               VerticalOptions="Center"
+                               FontSize="Large"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               Margin="0,10,0,0"
+                               Grid.Row="2"
+                               Grid.Column="0" />
+                        <Frame HorizontalOptions="FillAndExpand"
+                               VerticalOptions="Center"
+                               Padding="5"
+                               CornerRadius="8"
+                               BackgroundColor="#ECECEC"
+                               Grid.Row="3"
+                               Grid.Column="0">
+                            <Picker Title="Select a Date"
+                                    x:Name="DatesPicker"
+                                    SelectedIndexChanged="OnDateSelectedIndexChanged"
+                                    />
+                        </Frame>
+
+                        <DatePicker x:Name="DatePicker"
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    IsVisible="False"
+                                    DateSelected="OnDateSelected"
+                                    Format="D"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    Margin="0,10,0,0" />
                     </Grid>
                 </Frame>
                 <Label Text="Liste des etudiants:"
