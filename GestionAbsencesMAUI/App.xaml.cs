@@ -108,7 +108,7 @@ namespace GestionAbsencesMAUI
         public App()
         {
             InitializeComponent();
-            MainPage = new SearchPage();
+            MainPage = new InfoPage();
         }
 
         protected override async void OnStart()

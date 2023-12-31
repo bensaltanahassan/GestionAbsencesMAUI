@@ -31,10 +31,14 @@ namespace GestionAbsencesMAUI.Views
 
         private async void LoadModulesAsync()
         {
-           
-            var modules = await _moduleServices.GetAllModulesAsync();
 
-            
+            // Assume profId is 1 for testing
+            int profId = 1;
+
+            var modules = await _moduleServices.GetModulesInProf(profId);
+
+            ModulePicker.Items.Clear(); // Clear existing items
+
             foreach (var module in modules)
             {
                 ModulePicker.Items.Add(module.Nom);
@@ -83,20 +87,21 @@ namespace GestionAbsencesMAUI.Views
             var selectedEtudiant = (await _etudiantService.getAllEtudiants())
                 .FirstOrDefault(etudiant => $"{etudiant.Nom} {etudiant.Prenom}" == selectedEtudiantName);
 
-
             if (selectedModule != null && selectedEtudiant != null)
             {
                 var absences = await _absenceServices.GetAbsencesInModuleForStudent(selectedEtudiant.Id, selectedModule.Id);
 
-                
-                var presences = absences.Count(a => a.IsPresent == 1); // Supposant que 1 signifie "présent" dans notre modèle Abscence
+                // Counting the absences and presences
+                var presencesCount = absences.Count(a => a.IsPresent == 0); 
+                var absencesCount = absences.Count(a => a.IsPresent == 1); 
 
-                ResultLabel.Text = $"Absent:    {absences.Count}\n";
-                ResultLabel2.Text = $"Present: {presences}";
+                ResultLabel.Text = $"Absent:    {absencesCount}\n";
+                ResultLabel2.Text = $"Present: {presencesCount}";
             }
 
             ResultLabelFrame.IsVisible = true;
             ResultLabel2Frame.IsVisible = true;
         }
+
     }
 }

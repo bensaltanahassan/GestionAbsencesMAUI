@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using GestionAbsencesMAUI.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,6 +127,17 @@ namespace GestionAbsencesMAUI.Services
             return new List<Models.Module>();
         }
 
+        // Inside your ModuleServices class
+        public async Task<List<Module>> GetModulesForProfesseurAsync(int professeurId)
+        {
+            // Assuming you have a method to retrieve modules from your data source
+            var allModules = await GetAllModulesAsync(); // Replace with your actual method
+
+            // Filter modules based on ProfesseurId
+            var modulesForProfesseur = allModules.Where(module => module.ProfesseurId == professeurId).ToList();
+
+            return modulesForProfesseur;
+        }
 
     }
 }

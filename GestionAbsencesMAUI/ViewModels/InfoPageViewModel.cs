@@ -33,26 +33,19 @@ namespace GestionAbsencesMAUI.ViewModels
             set => SetProperty(ref resultText, value);
         }
 
+      
+
         public InfoPageViewModel()
         {
             ModuleOptions = new ObservableCollection<string>();
             EtudiantOptions = new ObservableCollection<string>();
 
-            LoadModulesCommand = new Command(async () => await LoadModulesAsync());
             ModuleSelectedCommand = new Command<string>(async (moduleName) => await ModuleSelectedAsync(moduleName));
             EtudiantSelectedCommand = new Command<string>(EtudiantSelected);
             AfficherAbsencesCommand = new Command(AfficherAbsences);
         }
 
-        private async Task LoadModulesAsync()
-        {
-            modules = await App.moduleServices.GetAllModulesAsync();
-            ModuleOptions.Clear();
-            foreach (var module in modules)
-            {
-                ModuleOptions.Add(module.Nom);
-            }
-        }
+       
 
         private async Task ModuleSelectedAsync(string moduleName)
         {
