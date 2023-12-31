@@ -1,23 +1,62 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionAbsencesMAUI.Views.MainPageChoices"
+             Title="HomePage"
              >
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+    </Shell.BackButtonBehavior>
     <ContentPage.Content>
-        <VerticalStackLayout Spacing="0" Padding="20,0">
-            <Grid Margin="0,20,0,0" ColumnSpacing="20">
+        <VerticalStackLayout Spacing="0"
+                             Padding="20,0">
+            <Grid Margin="0,20,0,0"
+                  ColumnSpacing="20">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
             </Grid>
-            
-            <Button Margin="0,20,0,0" Text="Absence" CornerRadius="20" BackgroundColor="#11009E" TextColor="White" FontSize="20" HeightRequest="60"/>
-            <Button Margin="0,20,0,0" Text="Add Student" CornerRadius="20" BackgroundColor="#11009E" TextColor="White" FontSize="20" HeightRequest="60"/>
-            <Button Margin="0,20,0,0" Text="New Lesson" CornerRadius="20" BackgroundColor="#11009E" TextColor="White" FontSize="20" HeightRequest="60"/>
-            <Button Margin="0,20,0,0" Text="Search" CornerRadius="20" BackgroundColor="#11009E" TextColor="White" FontSize="20" HeightRequest="60"/>
-            <Button Margin="0,20,0,0" Text="Logout" CornerRadius="20" BackgroundColor="#11009E" TextColor="White" FontSize="20" HeightRequest="60"/>
+            <Button Command="{Binding OnGoToAbsencesPagesClickedCommand}"
+                    Margin="0,20,0,0"
+                    Text="Absence"
+                    CornerRadius="20"
+                    BackgroundColor="#11009E"
+                    TextColor="White"
+                    FontSize="20"
+                    HeightRequest="60" />
+            <Button  Command="{Binding OnGoToAddStudentPageClickedCommand}"
+                    Margin="0,20,0,0"
+                    Text="Add Student"
+                    CornerRadius="20"
+                    BackgroundColor="#11009E"
+                    TextColor="White"
+                    FontSize="20"
+                    HeightRequest="60" />
+            <Button Command="{Binding OnGoToStudentInfosPageClickedCommand}"
+                    Margin="0,20,0,0"
+                    Text="Student Infos"
+                    CornerRadius="20"
+                    BackgroundColor="#11009E"
+                    TextColor="White"
+                    FontSize="20"
+                    HeightRequest="60" />
+            <Button Command="{Binding OnGoToSearchPageClickedCommand}"
+                    Margin="0,20,0,0"
+                    Text="Search"
+                    CornerRadius="20"
+                    BackgroundColor="#11009E"
+                    TextColor="White"
+                    FontSize="20"
+                    HeightRequest="60" />
+            <Button Command="{Binding OnLogoutClickedCommand}"
+                    Margin="0,20,0,0"
+                    Text="Logout"
+                    CornerRadius="20"
+                    BackgroundColor="#11009E"
+                    TextColor="White"
+                    FontSize="20"
+                    HeightRequest="60" />
         </VerticalStackLayout>
-
     </ContentPage.Content>
 </ContentPage>

@@ -2,25 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionAbsencesMAUI.Views.AbsencesPage"
-             Title="AbsencesPage"
-             xmlns:local="clr-namespace:GestionAbsencesMAUI.ViewModels">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            
-        </ResourceDictionary>
-    </ContentPage.Resources>
+             Title="Absences Page"
+             >
+    <ContentPage.Content>
+   
     <StackLayout>
-        <HorizontalStackLayout Padding="20,0,20,0"
-                               HorizontalOptions="FillAndExpand"
-                               VerticalOptions="Center"
-                               HeightRequest="60"
-                               BackgroundColor="Aqua">
-            <Label Text="Gestion des absences"
-                   VerticalOptions="CenterAndExpand"
-                   FontSize="Large"
-                   FontAttributes="Bold"
-                   TextColor="Black" />
-        </HorizontalStackLayout>
+        
         <ScrollView VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"
                     Orientation="Vertical"
@@ -176,4 +163,5 @@
                     FontAttributes="Bold" />
         </StackLayout>
     </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

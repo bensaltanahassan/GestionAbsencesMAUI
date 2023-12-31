@@ -10,6 +10,11 @@ namespace GestionAbsencesMAUI
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(MainPageChoices), typeof(MainPageChoices));
+            Routing.RegisterRoute(nameof(AbsencesPage), typeof(AbsencesPage));
+            Routing.RegisterRoute(nameof(StudentPage), typeof(StudentPage));
+            Routing.RegisterRoute(nameof(InfoPage), typeof(InfoPage));
+            Routing.RegisterRoute(nameof(SearchPage), typeof(SearchPage));
+
         }
     }
 }

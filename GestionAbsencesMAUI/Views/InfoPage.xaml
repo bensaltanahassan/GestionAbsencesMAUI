@@ -5,15 +5,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="GestionAbsencesMAUI.Views.InfoPage"
+             Title="Student Infos"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <StackLayout>
-        <!-- Titre -->
-        <StackLayout >
-            <!-- Titre -->
-            <Label Text="Student Info" FontSize="20" TextColor="White" Padding="15" Background="#05b790"  />
-
-        </StackLayout>
+        
 
         <!-- Description -->
         <Label Text="Choose a course :" FontSize="16"  TextColor="Gray" Padding="5" />

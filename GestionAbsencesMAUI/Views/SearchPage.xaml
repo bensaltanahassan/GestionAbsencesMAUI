@@ -5,17 +5,7 @@
              Title="Page de recherche">
     <StackLayout
         >
-        <HorizontalStackLayout Padding="20,0,20,0"
-                       HorizontalOptions="FillAndExpand"
-                       VerticalOptions="Center"
-                       HeightRequest="60"
-                       BackgroundColor="Aqua">
-            <Label Text="Rechercher étudiant"
-           VerticalOptions="CenterAndExpand"
-           FontSize="Large"
-           FontAttributes="Bold"
-           TextColor="Black" />
-        </HorizontalStackLayout>
+        
         <ScrollView VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
             Orientation="Vertical"

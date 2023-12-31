@@ -12,23 +12,26 @@ namespace GestionAbsencesMAUI.ViewModels
     public partial class LoginPageViewModel : BindableObject
     {
         private readonly ProfesseurServices _profService;
+        INavigation Navigation { get; set; }
 
        
 
-        public LoginPageViewModel()
+        public LoginPageViewModel(INavigation navigation)
         {
+            Navigation = navigation;
             _profService = App.professeurServices;
             OnLoginClickede = new Command(async () => await OnLoginClicked());
             OnRegisterClickedCommand = new Command(async () => await OnRegisterClicked());
-             HandleLoginMiddlware();
+            HandleLoginMiddlware();
         }
-        public async Task HandleLoginMiddlware()
+        public async void HandleLoginMiddlware()
         {
+
             if (Preferences.Get("profLoggedIn", false))
             {
                 try
                 {
-                    await Shell.Current.GoToAsync(nameof(MainPageChoices));
+                    await Navigation.PushAsync(new MainPageChoices(),true);
                 }
                 catch (Exception ex)
                 {
@@ -72,7 +75,8 @@ namespace GestionAbsencesMAUI.ViewModels
                     Preferences.Set("profPrenom", p.Prenom);
                     Preferences.Set("profEmail", p.Email);
                     Preferences.Set("profPhone", p.Phone);
-                    await Shell.Current.GoToAsync(nameof(MainPageChoices));
+
+                    await Navigation.PushAsync(new MainPageChoices());
                 }
                 catch (Exception ex)
                 {
@@ -91,7 +95,7 @@ namespace GestionAbsencesMAUI.ViewModels
         {
             try
             {
-                await Shell.Current.GoToAsync(nameof(RegisterPage));
+                await Navigation.PushAsync(new RegisterPage());
             }
             catch (Exception ex)
             {

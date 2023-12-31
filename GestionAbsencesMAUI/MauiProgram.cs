@@ -23,13 +23,28 @@ namespace GestionAbsencesMAUI
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<LoginPageViewModel>();
 
-            builder.Services.AddSingleton<AbsencesPage>();
-            builder.Services.AddSingleton<AbsencesPageViewModel>();
-
             builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddTransient<RegisterPageViewModel>();
 
             builder.Services.AddTransient<MainPageChoices>();
+            builder.Services.AddTransient<MainPageViewModel>();
+
+            builder.Services.AddTransient<StudentPage>();
+            builder.Services.AddTransient<StudentPageViewModel>();
+
+            builder.Services.AddTransient<InfoPage>();
+            builder.Services.AddTransient<InfoPageViewModel>();
+
+            builder.Services.AddTransient<SearchPage>();
+            builder.Services.AddTransient<SearchPageViewModel>();
+
+            builder.Services.AddTransient<AbsencesPage>();
+            builder.Services.AddTransient<AbsencesPageViewModel>();
+
+
+
+
+
            
 
 

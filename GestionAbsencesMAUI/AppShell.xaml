@@ -10,20 +10,6 @@
     <ShellContent
       ContentTemplate="{DataTemplate local:LoginPage}"
       Route="LoginPage" />
-
-
-
-    <ShellContent
-        ContentTemplate="{DataTemplate local:RegisterPage}"
-        Route="RegisterPage" />
-
-  
-
-    <ShellContent
-        ContentTemplate="{DataTemplate local:MainPageChoices}"
-        Route="MainPageChoices" />
-
-
-
-
+   
+        
 </Shell>
