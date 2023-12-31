@@ -108,8 +108,23 @@ namespace GestionAbsencesMAUI.Services
             try
             {
                 var filiereModules = await _db.Table<FiliereModule>().Where(fm => fm.ModuleId == moduleId).ToListAsync();
-                var etudiantIds = filiereModules.Select(fm => fm.FiliereId);
-                return await _db.Table<Etudiant>().Where(etudiant => etudiantIds.Contains(etudiant.Id)).ToListAsync();
+                List<int> filiereIds = [];
+                foreach (var filiereModule in filiereModules)
+                {
+                    filiereIds.Add(filiereModule.FiliereId);
+                }
+
+                List<Etudiant> etudiants = [];
+                foreach (var filiereId in filiereIds)
+                {
+                    var etds = await _db.Table<Etudiant>().Where(etudiant => etudiant.filiereId == filiereId).ToListAsync();
+                    etudiants.AddRange(etds);
+                }
+
+                return etudiants;
+
+
+
             }
             catch (Exception ex)
             {

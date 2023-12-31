@@ -14,6 +14,8 @@ namespace GestionAbsencesMAUI.Views
         private readonly ModuleServices _moduleServices;
         private readonly EtudiantService _etudiantService;
         private readonly AbsenceServices _absenceServices;
+        List<Module> modules { get; set; }
+        List<Etudiant> etudiants { get; set; }
 
 
         private int profId { get; set;}
@@ -39,7 +41,7 @@ namespace GestionAbsencesMAUI.Views
 
             
 
-            var modules = await _moduleServices.GetModulesInProf(profId);
+            modules = await _moduleServices.GetModulesInProf(profId);
 
             ModulePicker.Items.Clear(); // Clear existing items
 
@@ -56,14 +58,11 @@ namespace GestionAbsencesMAUI.Views
             if (string.IsNullOrEmpty(selectedModuleName))
                 return;
 
-            var selectedModule = (await _moduleServices.GetAllModulesAsync())
-                .FirstOrDefault(module => module.Nom == selectedModuleName);
+            var selectedModule = modules.FirstOrDefault(module => module.Nom == selectedModuleName);
 
             if (selectedModule != null)
             {
-                
-                var etudiants = await _etudiantService.GetEtudiantsInModule(selectedModule.Id);
-
+                etudiants = await _etudiantService.GetEtudiantsInModule(selectedModule.Id);
                 EtudiantPicker.Items.Clear();
                 foreach (var etudiant in etudiants)
                 {
@@ -85,19 +84,17 @@ namespace GestionAbsencesMAUI.Views
             if (string.IsNullOrEmpty(selectedModuleName) || string.IsNullOrEmpty(selectedEtudiantName))
                 return;
 
-            var selectedModule = (await _moduleServices.GetAllModulesAsync())
-                .FirstOrDefault(module => module.Nom == selectedModuleName);
+            var selectedModule= modules.FirstOrDefault(module => module.Nom == selectedModuleName);
 
-            var selectedEtudiant = (await _etudiantService.getAllEtudiants())
-                .FirstOrDefault(etudiant => $"{etudiant.Nom} {etudiant.Prenom}" == selectedEtudiantName);
+            var selectedEtudiant = etudiants.FirstOrDefault(etudiant => $"{etudiant.Nom} {etudiant.Prenom}" == selectedEtudiantName);
 
             if (selectedModule != null && selectedEtudiant != null)
             {
                 var absences = await _absenceServices.GetAbsencesInModuleForStudent(selectedEtudiant.Id, selectedModule.Id);
 
                 // Counting the absences and presences
-                var presencesCount = absences.Count(a => a.IsPresent == 0); 
-                var absencesCount = absences.Count(a => a.IsPresent == 1); 
+                var presencesCount = absences.Count(a => a.IsPresent == 1); 
+                var absencesCount = absences.Count(a => a.IsPresent == 0); 
 
                 ResultLabel.Text = $"Absent:    {absencesCount}\n";
                 ResultLabel2.Text = $"Present: {presencesCount}";

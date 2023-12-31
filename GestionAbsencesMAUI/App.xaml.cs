@@ -116,8 +116,8 @@ namespace GestionAbsencesMAUI
         protected override async void OnStart()
         {
             //run this only once and then comment it
-            //TestDbService testDbService = new TestDbService();
-            //await testDbService.insertInitialData();
+            TestDbService testDbService = new TestDbService();
+            await testDbService.insertInitialData();
         }
     }
 }

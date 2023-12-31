@@ -27,14 +27,27 @@ namespace GestionAbsencesMAUI.Services
         {
             try
             {
-                var query = $"SELECT Absence.* FROM Absence " +
-                            $"INNER JOIN Etudiant ON Absence.EtudiantId = Etudiant.Id " +
-                            $"INNER JOIN FiliereModule ON Etudiant.filiereId = FiliereModule.FiliereId " +
-                            $"INNER JOIN Module ON FiliereModule.ModuleId = Module.Id " +
-                            $"WHERE Etudiant.Id = {studentId} AND Module.Id = {moduleId}";
 
-                var absencesInModuleForStudent = await _db.QueryAsync<Absence>(query);
-                return absencesInModuleForStudent;
+                List<FiliereModule> fm = await _db.Table<FiliereModule>().Where(f => f.ModuleId == moduleId).ToListAsync();
+                List<Session> sessions = new List<Session>();
+                foreach (FiliereModule f in fm)
+                {
+                    List<Session> s = await _db.Table<Session>().Where(s => s.FiliereModuleId == f.Id).ToListAsync();
+                    sessions.AddRange(s);
+                }
+
+                List<Absence> absences = new List<Absence>();
+                foreach (Session s in sessions)
+                {
+                    Absence a = await _db.Table<Absence>().Where(a => a.SessionId == s.Id && a.EtudiantId == studentId).FirstOrDefaultAsync();
+                    if (a != null)
+                    {
+                        absences.Add(a);
+                    }
+                }
+                return absences;
+
+                
             }
             catch (Exception ex)
             {
