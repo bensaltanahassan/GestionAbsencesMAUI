@@ -155,6 +155,7 @@
                     Clicked="OnSaveButtonClicked"
                     FontAttributes="Bold" />
             <Button x:Name="CancelButton"
+                    Command="{Binding BackToMainPageCmnd}"
                     Text="Annuler"
                     HorizontalOptions="FillAndExpand"
                     TextColor="White"

@@ -1,5 +1,6 @@
 ﻿using GestionAbsencesMAUI.Models;
 using GestionAbsencesMAUI.Utils;
+using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace GestionAbsencesMAUI.ViewModels
 {
     
-    public class AbsencesPageViewModel
+    public class AbsencesPageViewModel:BaseViewModel
     {
         public bool isLoading = false;
         public string? selectedDate;
@@ -36,13 +37,23 @@ namespace GestionAbsencesMAUI.ViewModels
 
         public List<EtudiantAbsentModel> etudiantsStatus { get; set; }
 
+        public Command BackToMainPageCmnd { get; }
+        private INavigation _navigation;
+
 
         public int profId { get; set; }
 
-        public AbsencesPageViewModel()
+        public AbsencesPageViewModel(INavigation navigation)
         {
+            _navigation = navigation;
+            BackToMainPageCmnd = new Command(BackToMainPage);
             profId = Preferences.Get("profId", 1);
             InitializeViewModel();
+        }
+
+        private void BackToMainPage()
+        {
+            _navigation.PopAsync();
         }
 
         public async Task InitializeViewModel()

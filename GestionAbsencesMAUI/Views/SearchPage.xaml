@@ -166,6 +166,7 @@
                     <Button x:Name="CancelButton"
                     Text="Annuler"
                     HorizontalOptions="FillAndExpand"
+                    Command="{Binding BackToMainPageCmnd}"
                     TextColor="White"
                     Background="Red"
                     FontSize="18"

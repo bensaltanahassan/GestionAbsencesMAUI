@@ -10,9 +10,11 @@ namespace GestionAbsencesMAUI.ViewModels
     public class StudentPageViewModel : BindableObject
     {
         private readonly EtudiantService _etudiantService;
-        public Command AfficherTousLesEtudiantsCommand { get; }
+        public Command BackToMainPageCmnd { get; }
 
         public ObservableCollection<Etudiant> ListeDesEtudiants { get; set; }
+
+        private INavigation _navigation;
 
  
         private ObservableCollection<Filiere> _filieres;
@@ -44,11 +46,12 @@ namespace GestionAbsencesMAUI.ViewModels
             Filieres = new ObservableCollection<Filiere>(filieres);
         }
 
-        public StudentPageViewModel()
+        public StudentPageViewModel(INavigation navigation)
         {
+            _navigation = navigation;
             _etudiantService = App.etudiantService;
             AjouterEtudiantCommand = new Command(async () => await AjouterEtudiant());
-            AfficherTousLesEtudiantsCommand = new Command(AfficherTousLesEtudiants);
+            BackToMainPageCmnd = new Command(BackToMainPage);
             ListeDesEtudiants = new ObservableCollection<Etudiant>();
             Task.Run(async () => await LoadFilieres());
         }
@@ -145,22 +148,9 @@ namespace GestionAbsencesMAUI.ViewModels
             }
         }
 
-        private async void AfficherTousLesEtudiants()
+        private async void BackToMainPage()
         {
-            var tousLesEtudiants = await _etudiantService.getAllEtudiants();
-
-            if (tousLesEtudiants != null)
-            {
-                ListeDesEtudiants.Clear();
-                foreach (var etudiant in tousLesEtudiants)
-                {
-                    ListeDesEtudiants.Add(etudiant);
-                }
-            }
-            else
-            {
-                await Application.Current.MainPage.DisplayAlert("Erreur", "Impossible de récupérer la liste des étudiants.", "OK");
-            }
+            await _navigation.PopAsync();
         }
     }
 }

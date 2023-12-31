@@ -22,7 +22,7 @@ public partial class AbsencesPage : ContentPage
 
     public async Task InitializePage()
     {
-        viewModel = new AbsencesPageViewModel();
+        viewModel = new AbsencesPageViewModel(Navigation);
         await viewModel.InitializeViewModel();
         this.BindingContext = viewModel;
     }

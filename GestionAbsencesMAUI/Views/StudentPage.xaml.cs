@@ -8,6 +8,6 @@ public partial class StudentPage : ContentPage
     public StudentPage()
 	{
         InitializeComponent();
-        BindingContext = new StudentPageViewModel();
+        BindingContext = new StudentPageViewModel(Navigation);
     }
 }

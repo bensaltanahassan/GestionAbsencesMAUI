@@ -15,7 +15,7 @@ public partial class SearchPage : ContentPage
 	}
     public async Task InitializePage()
     {
-        viewModel = new SearchPageViewModel();
+        viewModel = new SearchPageViewModel(Navigation);
         await viewModel.InitializeViewModel();
         this.BindingContext = viewModel;
     }
