@@ -70,7 +70,7 @@ namespace GestionAbsencesMAUI.Services
         public async Task<Professeur> getProfesseurByUsername(string username)
         {
             try
-            {
+            { 
                 return await _db.Table<Professeur>().Where(p => p.Username == username).FirstOrDefaultAsync();
             }
             catch (Exception ex)

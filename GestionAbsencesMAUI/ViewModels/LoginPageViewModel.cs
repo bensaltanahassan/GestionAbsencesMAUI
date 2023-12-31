@@ -1,4 +1,5 @@
-﻿using GestionAbsencesMAUI.Services;
+﻿using GestionAbsencesMAUI.Models;
+using GestionAbsencesMAUI.Services;
 using GestionAbsencesMAUI.Views;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,26 @@ namespace GestionAbsencesMAUI.ViewModels
 
         public LoginPageViewModel()
         {
-
             _profService = App.professeurServices;
-           
             OnLoginClickede = new Command(async () => await OnLoginClicked());
             OnRegisterClickedCommand = new Command(async () => await OnRegisterClicked());
-
-
+             HandleLoginMiddlware();
         }
+        public async Task HandleLoginMiddlware()
+        {
+            if (Preferences.Get("profLoggedIn", false))
+            {
+                try
+                {
+                    await Shell.Current.GoToAsync(nameof(MainPageChoices));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error during navigation: {ex.Message}");
+                }
+            }
+        }
+
 
         public Command OnLoginClickede { get; }
         public Command OnRegisterClickedCommand { get; }
@@ -50,6 +63,15 @@ namespace GestionAbsencesMAUI.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Success", "Login successful!", "OK");
                 try
                 {
+                    Professeur p = await _profService.getProfesseurByUsername(professorUsername);
+                    Preferences.Set("profLoggedIn", true);
+                    Preferences.Set("profId", p.Id);
+                    Preferences.Set("profUsername", p.Username);
+                    Preferences.Set("profPassword", p.Password);
+                    Preferences.Set("profNom", p.Nom);
+                    Preferences.Set("profPrenom", p.Prenom);
+                    Preferences.Set("profEmail", p.Email);
+                    Preferences.Set("profPhone", p.Phone);
                     await Shell.Current.GoToAsync(nameof(MainPageChoices));
                 }
                 catch (Exception ex)

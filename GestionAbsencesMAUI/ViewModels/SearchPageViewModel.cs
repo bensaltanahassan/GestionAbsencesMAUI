@@ -43,6 +43,7 @@ namespace GestionAbsencesMAUI.ViewModels
 
         public SearchPageViewModel()
         {
+            profId = Preferences.Get("profId", 1);
             InitializeViewModel();
         }
         public async Task InitializeViewModel()
@@ -51,7 +52,7 @@ namespace GestionAbsencesMAUI.ViewModels
         }
         public async Task getModules()
         {
-            profId = 1; // test
+           
             var data = await App.moduleServices.GetModulesInProf(profId);
             Modules = data.ToList();
             ModulesNames = new List<String>();

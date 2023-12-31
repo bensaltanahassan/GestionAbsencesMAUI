@@ -15,9 +15,14 @@ namespace GestionAbsencesMAUI.Views
         private readonly EtudiantService _etudiantService;
         private readonly AbsenceServices _absenceServices;
 
+
+        private int profId { get; set;}
+
         public InfoPage()
         {
             InitializeComponent();
+
+            profId = Preferences.Get("profId", 1);
             _moduleServices = App.moduleServices;
             _etudiantService = App.etudiantService;
             _absenceServices = App.absenceServices;
@@ -32,8 +37,7 @@ namespace GestionAbsencesMAUI.Views
         private async void LoadModulesAsync()
         {
 
-            // Assume profId is 1 for testing
-            int profId = 1;
+            
 
             var modules = await _moduleServices.GetModulesInProf(profId);
 
