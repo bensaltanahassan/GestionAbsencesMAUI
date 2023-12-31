@@ -3,14 +3,27 @@
     x:Class="GestionAbsencesMAUI.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:GestionAbsencesMAUI"
+    xmlns:local="clr-namespace:GestionAbsencesMAUI.Views"
     Shell.FlyoutBehavior="Disabled"
     Title="GestionAbsencesMAUI">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-    
+      ContentTemplate="{DataTemplate local:LoginPage}"
+      Route="LoginPage" />
+
+
+
+    <ShellContent
+        ContentTemplate="{DataTemplate local:RegisterPage}"
+        Route="RegisterPage" />
+
+  
+
+    <ShellContent
+        ContentTemplate="{DataTemplate local:MainPageChoices}"
+        Route="MainPageChoices" />
+
+
+
 
 </Shell>

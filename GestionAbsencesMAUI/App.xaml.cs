@@ -1,6 +1,7 @@
 ﻿using GestionAbsencesMAUI.Models;
 using GestionAbsencesMAUI.Services;
 using GestionAbsencesMAUI.Views;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 
 namespace GestionAbsencesMAUI
 {
@@ -108,7 +109,8 @@ namespace GestionAbsencesMAUI
         public App()
         {
             InitializeComponent();
-            MainPage = new InfoPage();
+            MainPage = new AppShell();
+//             MainPage = new SearchPage();
         }
 
         protected override async void OnStart()

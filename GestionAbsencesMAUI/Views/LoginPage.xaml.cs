@@ -1,5 +1,7 @@
 using GestionAbsencesMAUI.ViewModels;
 
+
+
 namespace GestionAbsencesMAUI.Views;
 
 public partial class LoginPage : ContentPage
@@ -9,9 +11,12 @@ public partial class LoginPage : ContentPage
     public LoginPage()
 	{
 		InitializeComponent();
-		//binding the view to the viewmodel
-		this.BindingContext = viewModel = new LoginPageViewModel();
+        //binding the view to the viewmodel
+        viewModel = new LoginPageViewModel();
+
+        // Binding the view to the viewModel
+        this.BindingContext = viewModel;
 
 
-	}
+    }
 }

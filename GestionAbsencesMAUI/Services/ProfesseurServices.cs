@@ -81,6 +81,22 @@ namespace GestionAbsencesMAUI.Services
         }
 
 
+        public async Task<bool> AuthenticateProfessorAsync(string username, string password)
+        {
+            try
+            {
+                var professor = await _db.Table<Professeur>().Where(p => p.Username == username && p.Password == password).FirstOrDefaultAsync();
+                return professor != null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error authenticating professor: {ex.Message}");
+                return false;
+            }
+        }
+
+
+
 
 
 

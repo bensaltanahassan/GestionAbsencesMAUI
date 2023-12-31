@@ -2,11 +2,30 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionAbsencesMAUI.Views.LoginPage"
-             Title="LoginPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             >
+
+    <ContentPage.Content>
+        <VerticalStackLayout Spacing="0" Padding="20,0">
+            <Grid Margin="0,20,0,0" ColumnSpacing="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text="Already have an Account?" FontSize="14" VerticalOptions="Center"/>
+                <Image Grid.Column="1" Source="@Resources/Images/permission.png"  HeightRequest="200" WidthRequest="200"/>
+            </Grid>
+            <VerticalStackLayout Margin="0,20,0,0">
+                <Label Text="Username" />
+                <Entry x:Name="username" Placeholder="Enter username" Text="{Binding Username}" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Margin="0,20,0,0">
+                <Label Text="Password" />
+                <Entry x:Name="password" Placeholder="Enter password" Text="{Binding Password}" IsPassword="True" />
+            </VerticalStackLayout>
+            <Button  Margin="0,20,0,0" Text="Login" Command="{Binding OnLoginClickede}" CornerRadius="20" BackgroundColor="#83A2FF" TextColor="White" FontSize="16"/>
+            <Button  Margin="0,20,0,0" Text="Register" Command="{Binding OnRegisterClickedCommand}" CornerRadius="20" BackgroundColor="#83A2FF" TextColor="White"  FontSize="16"/>
+        </VerticalStackLayout>
+
+    </ContentPage.Content>
+   
 </ContentPage>
