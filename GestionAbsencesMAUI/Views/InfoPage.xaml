@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
@@ -30,7 +30,8 @@
                Grid.Column="0">
             <Picker x:Name="ModulePicker"
                     Title="Choose a module"
-                    SelectedIndexChanged="ModulePicker_SelectedIndexChanged" />
+                    ItemsSource="{Binding ModuleItems}"
+                    SelectedItem="{Binding SelectedModule}" />
         </Frame>
         <Label Text="Choose a student:"
                VerticalOptions="Center"
@@ -47,13 +48,14 @@
                >
             <Picker Title="Choose a student"
                     x:Name="EtudiantPicker"
-                    SelectedIndexChanged="EtudiantPicker_SelectedIndexChanged" />
+                    ItemsSource="{Binding EtudiantItems}"
+                    SelectedItem="{Binding SelectedEtudiant}" />
         </Frame>
         <Button Text="Show the attendance status"
-                x:Name="AfficherAbsencesButton"
-                Clicked="AfficherAbsences_Clicked"
-                Margin="0,20"
-                Background="#3498DB" />
+        x:Name="AfficherAbsencesButton"
+        Command="{Binding ShowAttendanceStatusCommand}"
+        Margin="0,20"
+        Background="#3498DB" />
         <StackLayout x:Name="FramesStackLayout"
                      Orientation="Horizontal"
                      HorizontalOptions="CenterAndExpand">
@@ -63,7 +65,7 @@
                    Margin="1"
                    IsVisible="False">
                 <Label x:Name="ResultLabel"
-                       Text=""
+                       Text="{Binding ResultLabel}"
                        TextColor="White" />
             </Frame>
             <Frame x:Name="ResultLabel2Frame"
@@ -72,7 +74,7 @@
                    Margin="1"
                    IsVisible="False">
                 <Label x:Name="ResultLabel2"
-                       Text=""
+                       Text="{Binding ResultLabel2}"
                        TextColor="White" />
             </Frame>
         </StackLayout>

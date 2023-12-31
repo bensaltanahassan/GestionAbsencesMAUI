@@ -113,11 +113,11 @@ namespace GestionAbsencesMAUI
 //             MainPage = new SearchPage();
         }
 
-        protected override async void OnStart()
+       /* protected override async void OnStart()
         {
             //run this only once and then comment it
             TestDbService testDbService = new TestDbService();
             await testDbService.insertInitialData();
-        }
+        }*/
     }
 }
