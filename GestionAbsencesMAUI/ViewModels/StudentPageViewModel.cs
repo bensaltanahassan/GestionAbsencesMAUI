@@ -74,11 +74,11 @@ namespace GestionAbsencesMAUI.ViewModels
 
             if (ajoutReussi)
             {
-                await Application.Current.MainPage.DisplayAlert("Succès", "Étudiant ajouté avec succès.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Success", "Student added successfully.", "OK");
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Erreur", "Échec de l'ajout de l'étudiant.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Error in added student", "OK");
             }
         }
 

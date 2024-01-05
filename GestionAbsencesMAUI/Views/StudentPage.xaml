@@ -28,7 +28,7 @@
                                Placeholder="Enter CNE"
                                PlaceholderColor="Gray" />
                     </Frame>
-                    <Label Text="Nom:"
+                    <Label Text="Name:"
                            VerticalOptions="Center"
                            FontSize="Large"
                            FontAttributes="Bold"
@@ -41,10 +41,10 @@
                            BackgroundColor="#ECECEC">
                         <Entry x:Name="NomEntry"
                                Text="{Binding NomEntry}"
-                               Placeholder="Enter Nom"
+                               Placeholder="Enter Name"
                                PlaceholderColor="Gray" />
                     </Frame>
-                    <Label Text="Prenom:"
+                    <Label Text="First name:"
                            VerticalOptions="Center"
                            FontSize="Large"
                            FontAttributes="Bold"
@@ -57,7 +57,7 @@
                            BackgroundColor="#ECECEC">
                         <Entry x:Name="PrenomEntry"
                                Text="{Binding PrenomEntry}"
-                               Placeholder="Enter Prenom"
+                               Placeholder="Enter First name"
                                PlaceholderColor="Gray" />
                     </Frame>
                     <Label Text="Email:"
@@ -92,7 +92,7 @@
                                Placeholder="Enter Phone"
                                PlaceholderColor="Gray" />
                     </Frame>
-                    <Label Text="Select Filiere:"
+                    <Label Text="Select Sector:"
                            VerticalOptions="Center"
                            FontSize="Large"
                            FontAttributes="Bold"
@@ -132,7 +132,7 @@
                             HorizontalOptions="FillAndExpand"
                             Padding="20" />
                     <Button Grid.Column="1"
-                            Text="Annuler"
+                            Text="Cancel"
                             Command="{Binding BackToMainPageCmnd}"
                             BackgroundColor="#05b790"
                             TextColor="White"
