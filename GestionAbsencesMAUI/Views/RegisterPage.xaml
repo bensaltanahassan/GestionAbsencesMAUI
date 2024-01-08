@@ -1,52 +1,129 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionAbsencesMAUI.Views.RegisterPage"
-             Title="Create An Account"
->
+             Title="Create An Account">
     <ContentPage.Content>
-
-        <VerticalStackLayout Spacing="0" Padding="20,0">
-            <Grid Margin="0,20,0,0" ColumnSpacing="20">
+        <VerticalStackLayout Spacing="0"
+                             Padding="20,0">
+            <Grid Margin="0,20,0,0"
+                  ColumnSpacing="20">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <VerticalStackLayout>
-                    
-                    <Label  Grid.Column="0" Text="Create An Account" TextColor="Black" FontSize="18"  VerticalOptions="CenterAndExpand" />
+                    <Label Grid.Column="0"
+                           Text="Create An Account"
+                           TextColor="Black"
+                           FontSize="18"
+                           VerticalOptions="CenterAndExpand" />
                 </VerticalStackLayout>
-
             </Grid>
             <VerticalStackLayout Margin="0,20,0,0">
-                <Label Text="FirstName" />
-                <Entry x:Name="prenom" Placeholder="Enter firstName" Text="{Binding Prenom}" />
+                <Label Text="FirstName"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       
+                       TextColor="Black"
+                        />
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Padding="5"
+                       CornerRadius="8"
+                       BackgroundColor="#ECECEC">
+                    <Entry x:Name="prenom"
+                           Placeholder="Enter firstName"
+                           Text="{Binding Prenom}" />
+                </Frame>
             </VerticalStackLayout>
             <VerticalStackLayout Margin="0,20,0,0">
-                <Label Text="LastName" />
-                <Entry x:Name="nom" Placeholder="Enter lastName" Text="{Binding Nom}" />
+                <Label Text="LastName"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                        />
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Padding="5"
+                       CornerRadius="8"
+                       BackgroundColor="#ECECEC">
+                    <Entry x:Name="nom"
+                           Placeholder="Enter lastName"
+                           Text="{Binding Nom}" />
+                </Frame>
             </VerticalStackLayout>
             <VerticalStackLayout Margin="0,20,0,0">
-                <Label Text="Email" />
-                <Entry x:Name="email" Placeholder="Enter email" Text="{Binding Email}" />
+                <Label Text="Email"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                        />
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Padding="5"
+                       CornerRadius="8"
+                       BackgroundColor="#ECECEC">
+                    <Entry x:Name="email"
+                           Placeholder="Enter email"
+                           Text="{Binding Email}" />
+                </Frame>
             </VerticalStackLayout>
             <VerticalStackLayout Margin="0,20,0,0">
-                <Label Text="PhoneNumber" />
-                <Entry x:Name="phone" Placeholder="Enter phone number" Text="{Binding Phone}" />
+                <Label Text="PhoneNumber"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                     />
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Padding="5"
+                       CornerRadius="8"
+                       BackgroundColor="#ECECEC">
+                    <Entry x:Name="phone"
+                           Placeholder="Enter phone number"
+                           Text="{Binding Phone}" />
+                </Frame>
             </VerticalStackLayout>
             <VerticalStackLayout Margin="0,20,0,0">
-                <Label Text="Username" />
-                <Entry x:Name="username" Placeholder="Enter username" Text="{Binding Username}" />
+                <Label Text="Username"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       />
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Padding="5"
+                       CornerRadius="8"
+                       BackgroundColor="#ECECEC">
+                    <Entry x:Name="username"
+                           Placeholder="Enter username"
+                           Text="{Binding Username}" />
+                </Frame>
             </VerticalStackLayout>
-            <VerticalStackLayout  Margin="0,20,0,0">
-                <Label Text="Password" />
-                <Entry x:Name="password" Placeholder="Enter password" Text="{Binding Password}" IsPassword="True"/>
+            <VerticalStackLayout Margin="0,20,0,0">
+                <Label Text="Password"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       />
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Padding="5"
+                       CornerRadius="8"
+                       BackgroundColor="#ECECEC">
+                    <Entry x:Name="password"
+                           Placeholder="Enter password"
+                           Text="{Binding Password}"
+                           IsPassword="True" />
+                </Frame>
             </VerticalStackLayout>
-            <Button  Margin="0,20,0,0" Text="Sign Up"  Command="{Binding OnSignUpClickede}" CornerRadius="20" BackgroundColor="#86B6F6" TextColor="White"/>
-            
+            <Button Margin="0,20,0,0"
+                    Text="Sign Up"
+                    Command="{Binding OnSignUpClickede}"
+                    CornerRadius="20"
+                    BackgroundColor="#86B6F6"
+                    TextColor="White" />
         </VerticalStackLayout>
-
-
     </ContentPage.Content>
-   
 </ContentPage>
